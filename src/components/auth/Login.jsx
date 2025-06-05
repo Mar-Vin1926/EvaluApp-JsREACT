@@ -1,14 +1,15 @@
 import React from 'react';
+import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
-import { 
-  Container, 
-  Typography, 
-  Box, 
-  Grid, 
-  Card, 
-  CardContent, 
-  CardActionArea, 
+import {
+  Container,
+  Typography,
+  Box,
+  Grid,
+  Card,
+  CardContent,
+  CardActionArea,
   Button,
   Avatar
 } from '@mui/material';
@@ -30,23 +31,23 @@ const Login = () => {
   };
 
   const roles = [
-    { 
-      id: 'TEACHER', 
-      title: 'Profesor', 
+    {
+      id: 'TEACHER',
+      title: 'Profesor',
       description: 'Accede para crear y gestionar exámenes',
       icon: <SchoolIcon sx={{ fontSize: 60 }} />,
       color: 'primary.main'
     },
-    { 
-      id: 'STUDENT', 
-      title: 'Estudiante', 
+    {
+      id: 'STUDENT',
+      title: 'Estudiante',
       description: 'Accede para realizar exámenes y ver tus resultados',
       icon: <PersonIcon sx={{ fontSize: 60 }} />,
       color: 'secondary.main'
     },
-    { 
-      id: 'ADMIN', 
-      title: 'Administrador', 
+    {
+      id: 'ADMIN',
+      title: 'Administrador',
       description: 'Accede para gestionar usuarios y configuraciones',
       icon: <AdminIcon sx={{ fontSize: 60 }} />,
       color: 'success.main'
@@ -54,8 +55,17 @@ const Login = () => {
   ];
 
   return (
-    <Container maxWidth="md" sx={{ mt: 8 }}>
-      <Box textAlign="center" mb={6}>
+    <Container 
+      className="container" 
+      maxWidth="md" 
+      sx={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        justifyContent: 'space-between', 
+        minHeight: '30vh' // Ocupa toda la altura de la ventana
+      }}
+    >
+      <Box className="welcome-text" textAlign="center" mb={6}>
         <Typography variant="h3" component="h1" gutterBottom>
           Bienvenido a EvaluApp
         </Typography>
@@ -64,13 +74,20 @@ const Login = () => {
         </Typography>
       </Box>
 
-      <Grid container spacing={4} justifyContent="center">
+      <Grid container spacing={4} justifyContent="center" sx={{ flexGrow: 1 }}>
         {roles.map((role) => (
-          <Grid item xs={12} sm={6} md={4} key={role.id}>
-            <Card 
-              sx={{ 
-                height: '100%', 
-                display: 'flex', 
+          <Grid 
+            item 
+            xs={12} 
+            sm={6} 
+            md={4} 
+            key={role.id} 
+            className={role.id === 'ADMIN' ? 'admin-card-Admin' : ''}
+          >
+            <Card
+              sx={{
+                height: '100%',
+                display: 'flex',
                 flexDirection: 'column',
                 transition: 'transform 0.3s',
                 '&:hover': {
@@ -80,9 +97,9 @@ const Login = () => {
               }}
               elevation={3}
             >
-              <CardActionArea 
+              <CardActionArea
                 onClick={() => handleRoleSelect(role.id)}
-                sx={{ 
+                sx={{
                   flexGrow: 1,
                   display: 'flex',
                   flexDirection: 'column',
@@ -91,10 +108,10 @@ const Login = () => {
                   textAlign: 'center'
                 }}
               >
-                <Avatar 
-                  sx={{ 
-                    bgcolor: role.color, 
-                    width: 100, 
+                <Avatar
+                  sx={{
+                    bgcolor: role.color,
+                    width: 100,
                     height: 100,
                     mb: 3
                   }}
@@ -111,11 +128,11 @@ const Login = () => {
                 </CardContent>
               </CardActionArea>
               <Box sx={{ p: 2, textAlign: 'center' }}>
-                <Button 
-                  size="large" 
+                <Button
+                  size="large"
                   variant="contained"
                   onClick={() => handleRoleSelect(role.id)}
-                  sx={{ 
+                  sx={{
                     bgcolor: role.color,
                     '&:hover': {
                       bgcolor: role.color,
@@ -130,6 +147,13 @@ const Login = () => {
           </Grid>
         ))}
       </Grid>
+
+      {/* Pie de página */}
+      <Box className="footer" textAlign="center" mt={4} p={2} sx={{ bgcolor: '#f5f5f5' }}>
+        <Typography variant="body2" color="text.secondary">
+          © 2025 EvaluApp. Todos los derechos reservados.
+        </Typography>
+      </Box>
     </Container>
   );
 };

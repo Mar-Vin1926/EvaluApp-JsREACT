@@ -1,0 +1,41 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Asegura que ocupen toda la altura */
+}
+
+.container {
+position: relative;
+left: 230px;
+top: 178px;;
+}	
+
+
+.admin-card-Admin {
+  position: relative;
+  left: 620px; /* Mueve la tarjeta Administrador 50px hacia la derecha */
+  top: -370px; /* Mueve la tarjeta 45px hacia arriba */
+}
+
+.welcome-text {
+  position: relative;
+  left: 182px; /* Mueve el texto hacia la derecha */
+  font-family: 'Arial', sans-serif; /* Cambia la fuente */
+  font-size: 24px; /* Cambia el tamaño de la letra */
+  font-weight: bold; /* Cambia el grosor de la letra */
+  color: #333; /* Cambia el color del texto */
+  text-align: center; /* Asegura que el texto esté centrado */
+}
+
+.footer {
+    position: relative;
+    left: -235px; /* Mueve el footer hacia la izquierda */
+  background-color: #161118; /* Color de fondo */
+  padding: 16px; /* Espaciado interno */
+  text-align: center; /* Centra el texto */
+width: 1755px; /* Ancho del footer */
+  font-size: 14px; /* Tamaño de la letra */
+  color: #da169f; /* Color del texto */
+  border-top: 1px solid #11742f; /* Línea superior */
+  margin: 0; /* Elimina márgenes externos */
+}
