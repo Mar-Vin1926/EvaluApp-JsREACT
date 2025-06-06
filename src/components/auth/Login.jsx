@@ -1,17 +1,19 @@
 import React from 'react';
-import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
 import {
-  Container,
-  Typography,
   Box,
+  Typography,
+  Button,
   Grid,
   Card,
   CardContent,
   CardActionArea,
-  Button,
-  Avatar
+  Avatar,
+  useTheme,
+  useMediaQuery,
+  Container,
+  CssBaseline
 } from '@mui/material';
 import {
   School as SchoolIcon,
@@ -19,9 +21,14 @@ import {
   AdminPanelSettings as AdminIcon
 } from '@mui/icons-material';
 
+// Importar la imagen de fondo
+import fondoLogin from '../../assets/imagenFondo.jpg';
+
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleRoleSelect = (role) => {
     const success = login(role);
@@ -35,126 +42,266 @@ const Login = () => {
       id: 'TEACHER',
       title: 'Profesor',
       description: 'Accede para crear y gestionar exámenes',
-      icon: <SchoolIcon sx={{ fontSize: 60 }} />,
+      icon: <SchoolIcon sx={{ fontSize: { xs: 40, sm: 50, md: 60 } }} />,
       color: 'primary.main'
     },
     {
       id: 'STUDENT',
       title: 'Estudiante',
       description: 'Accede para realizar exámenes y ver tus resultados',
-      icon: <PersonIcon sx={{ fontSize: 60 }} />,
+      icon: <PersonIcon sx={{ fontSize: { xs: 40, sm: 50, md: 60 } }} />,
       color: 'secondary.main'
     },
     {
       id: 'ADMIN',
       title: 'Administrador',
       description: 'Accede para gestionar usuarios y configuraciones',
-      icon: <AdminIcon sx={{ fontSize: 60 }} />,
+      icon: <AdminIcon sx={{ fontSize: { xs: 40, sm: 50, md: 60 } }} />,
       color: 'success.main'
     }
   ];
 
   return (
-    <Container 
-      className="container" 
-      maxWidth="md" 
-      sx={{ 
-        display: 'flex', 
-        flexDirection: 'column', 
-        justifyContent: 'space-between', 
-        minHeight: '30vh' // Ocupa toda la altura de la ventana
+    <Box 
+      sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url(${fondoLogin})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed',
+        overflowY: 'auto',
+        zIndex: 0,
+        '&::before': {
+          content: '""',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          zIndex: -1,
+        }
       }}
     >
-      <Box className="welcome-text" textAlign="center" mb={6}>
-        <Typography variant="h3" component="h1" gutterBottom>
-          Bienvenido a EvaluApp
-        </Typography>
-        <Typography variant="h6" color="text.secondary">
-          Por favor, selecciona tu rol para continuar
-        </Typography>
-      </Box>
-
-      <Grid container spacing={4} justifyContent="center" sx={{ flexGrow: 1 }}>
-        {roles.map((role) => (
-          <Grid 
-            item 
-            xs={12} 
-            sm={6} 
-            md={4} 
-            key={role.id} 
-            className={role.id === 'ADMIN' ? 'admin-card-Admin' : ''}
+      <CssBaseline />
+      
+      {/* Contenido principal */}
+      <Container 
+        component="main" 
+        maxWidth={false} 
+        sx={{
+          position: 'relative',
+          zIndex: 1,
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          py: { xs: 4, sm: 6, md: 8 },
+          px: { xs: 2, sm: 3, md: 4 },
+          width: '100%',
+          maxWidth: '100% !important',
+          m: 0,
+        }}
+      >
+        <Box 
+          sx={{
+            maxWidth: 1200,
+            mx: 'auto',
+            width: '100%'
+          }}
+        >
+          <Box 
+            textAlign="center" 
+            mb={{ xs: 4, sm: 6, md: 8 }}
+            sx={{ width: '100%' }}
           >
-            <Card
+            <Typography 
+              variant={isMobile ? 'h4' : 'h3'} 
+              component="h1" 
+              gutterBottom
               sx={{
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                transition: 'transform 0.3s',
-                '&:hover': {
-                  transform: 'translateY(-8px)',
-                  boxShadow: 6
-                }
+                fontWeight: 700,
+                color: '#ffffff',
+                textShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)',
+                mb: 2,
+                width: '100%',
+                px: { xs: 1, sm: 2 }
               }}
-              elevation={3}
             >
-              <CardActionArea
-                onClick={() => handleRoleSelect(role.id)}
+              Bienvenido a EvaluApp
+            </Typography>
+            <Typography 
+              variant={isMobile ? 'subtitle1' : 'h6'} 
+              sx={{
+                color: '#ffffff',
+                maxWidth: 800,
+                mx: 'auto',
+                lineHeight: 1.6,
+                width: '100%',
+                px: { xs: 1, sm: 2 },
+                textShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)'
+              }}
+            >
+              Por favor, selecciona tu rol para continuar
+            </Typography>
+          </Box>
+
+          <Grid 
+            container 
+            spacing={{ xs: 2, sm: 3, md: 4 }}
+            justifyContent="center"
+            sx={{
+              maxWidth: 1400,
+              mx: 'auto',
+              width: '100%',
+              mb: { xs: 2, sm: 4 },
+              px: { xs: 1, sm: 2 }
+            }}
+          >
+            {roles.map((role) => (
+              <Grid 
+                item 
+                xs={12} 
+                sm={6} 
+                lg={4} 
+                key={role.id}
                 sx={{
-                  flexGrow: 1,
                   display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  p: 3,
-                  textAlign: 'center'
+                  justifyContent: 'center',
+                  maxWidth: 400,
+                  width: '100%',
+                  mx: 'auto'
                 }}
               >
-                <Avatar
+                <Card
                   sx={{
-                    bgcolor: role.color,
-                    width: 100,
-                    height: 100,
-                    mb: 3
-                  }}
-                >
-                  {role.icon}
-                </Avatar>
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {role.title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {role.description}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <Box sx={{ p: 2, textAlign: 'center' }}>
-                <Button
-                  size="large"
-                  variant="contained"
-                  onClick={() => handleRoleSelect(role.id)}
-                  sx={{
-                    bgcolor: role.color,
+                    width: '100%',
+                    maxWidth: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    transition: 'all 0.3s ease',
                     '&:hover': {
-                      bgcolor: role.color,
-                      opacity: 0.9
-                    }
+                      transform: 'translateY(-8px)',
+                      boxShadow: theme.shadows[8]
+                    },
+                    border: `1px solid ${theme.palette.divider}`,
+                    borderRadius: 2,
+                    overflow: 'hidden',
                   }}
+                  elevation={3}
                 >
-                  Ingresar como {role.title}
-                </Button>
-              </Box>
-            </Card>
+                  <CardActionArea
+                    onClick={() => handleRoleSelect(role.id)}
+                    sx={{
+                      flexGrow: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      p: { xs: 2, sm: 3 },
+                      textAlign: 'center',
+                      '&:hover': {
+                        '& .MuiAvatar-root': {
+                          transform: 'scale(1.1)',
+                          boxShadow: theme.shadows[4]
+                        }
+                      }
+                    }}
+                  >
+                    <Avatar
+                      sx={{
+                        bgcolor: `${role.color}20`,
+                        color: role.color,
+                        width: { xs: 80, sm: 100, md: 120 },
+                        height: { xs: 80, sm: 100, md: 120 },
+                        mb: { xs: 2, sm: 3 },
+                        transition: 'all 0.3s ease',
+                      }}
+                    >
+                      {role.icon}
+                    </Avatar>
+                    <CardContent sx={{ flexGrow: 1, p: 0, width: '100%' }}>
+                      <Typography 
+                        variant="h5" 
+                        component="h2" 
+                        gutterBottom
+                        sx={{ 
+                          fontWeight: 600,
+                          color: 'text.primary',
+                          mb: 1.5
+                        }}
+                      >
+                        {role.title}
+                      </Typography>
+                      <Typography 
+                        variant="body1" 
+                        color="text.secondary"
+                        sx={{ 
+                          mb: 3,
+                          minHeight: 60,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}
+                      >
+                        {role.description}
+                      </Typography>
+                      <Button 
+                        variant="contained" 
+                        color="primary"
+                        size="large"
+                        fullWidth
+                        sx={{
+                          mt: 'auto',
+                          py: 1.5,
+                          borderRadius: 1,
+                          fontWeight: 500,
+                          textTransform: 'none',
+                          fontSize: '1rem',
+                          '&:hover': {
+                            transform: 'translateY(-2px)',
+                            boxShadow: theme.shadows[4]
+                          },
+                          transition: 'all 0.3s ease'
+                        }}
+                      >
+                        Ingresar como {role.title.toLowerCase()}
+                      </Button>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
+        </Box>
+      </Container>
 
-      {/* Pie de página */}
-      <Box className="footer" textAlign="center" mt={4} p={2} sx={{ bgcolor: '#f5f5f5' }}>
-        <Typography variant="body2" color="text.secondary">
-          © 2025 EvaluApp. Todos los derechos reservados.
-        </Typography>
+      {/* Footer */}
+      <Box 
+        component="footer"
+        sx={{
+          py: 3,
+          px: 2,
+          mt: 'auto',
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          color: '#ffffff',
+          textAlign: 'center',
+          width: '100%',
+          position: 'relative',
+          zIndex: 1
+        }}
+      >
+        <Container maxWidth="lg">
+          <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+            {new Date().getFullYear()} EvaluApp - Todos los derechos reservados
+          </Typography>
+        </Container>
       </Box>
-    </Container>
+    </Box>
   );
 };
 

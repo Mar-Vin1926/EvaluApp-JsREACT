@@ -1,0 +1,123 @@
+/* Contenedor principal */
+.exams-container {
+    position: relative;
+    align-items: center;
+    left: 4px;
+    width: 1400px;
+    height: 100%;
+  margin: 2rem auto 4rem;
+  padding: 0 1rem;
+}
+
+/* Encabezado */
+.exams-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Título */
+.exams-title {
+  font-size: 4.5rem;
+  font-weight: 600;
+  color: #06192b; /* Color primario de Material-UI */
+  margin: 0;
+}
+
+/* Botón de nuevo examen */
+.new-exam-btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 4px;
+  text-transform: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+.new-exam-btn:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Contenedor de la tabla */
+.exams-table-container {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+}
+
+/* Tabla */
+.exams-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.exams-table th,
+.exams-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+}
+
+.exams-table th {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: #f5f5f5;
+}
+
+/* Efecto hover en filas */
+.exams-table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Botones de acción */
+.action-btn {
+  margin: 0 4px;
+  transition: all 0.2s;
+}
+
+.action-btn:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Mensaje de carga y error */
+.loading-container,
+.error-container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .exams-title {
+    font-size: 2rem;
+  }
+  
+  .exams-table-container {
+    padding: 0.75rem;
+  }
+  
+  .exams-table th,
+  .exams-table td {
+    padding: 0.75rem 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .exams-title {
+    font-size: 1.8rem;
+  }
+  
+  .new-exam-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

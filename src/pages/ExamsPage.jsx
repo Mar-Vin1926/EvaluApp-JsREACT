@@ -19,10 +19,13 @@ import {
   DialogContentText,
   DialogActions,
   Snackbar,
+  Container,
+  Typography
 } from '@mui/material';
 import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { examService } from '../services/api';
 import ExamForm from '../components/forms/ExamForm';
+import './ExamsPage.css';
 
 const ExamsPage = () => {
   const [exams, setExams] = useState([]);
@@ -247,103 +250,114 @@ const ExamsPage = () => {
   };
 
   return (
-    <div>
-      <h1>Exámenes</h1>
-      
-      {/* Botón para crear nuevo examen */}
-      <Box mb={3}>
-        <Button 
-          variant="contained" 
+    <div className="exams-container">
+      {/* Encabezado con título y botón */}
+      <div className="exams-header">
+        <Typography 
+          variant="h3" 
+          component="h1" 
+          className="exams-title"
+        >
+          Exámenes
+        </Typography>
+        <Button
+          variant="contained"
           color="primary"
           startIcon={<AddIcon />}
           onClick={handleAddNew}
+          className="new-exam-btn"
         >
           Nuevo Examen
         </Button>
-      </Box>
-      
-      {/* Estado de carga */}
-      {loading && (
-        <Box display="flex" justifyContent="center" my={4}>
-          <CircularProgress />
-        </Box>
-      )}
-      
-      {/* Mensaje de error */}
-      {error && (
-        <Alert 
-          severity="error" 
-          sx={{ mt: 2 }}
-          action={
-            retryCount < 3 && (
-              <Button 
-                color="inherit" 
-                size="small" 
-                onClick={() => {
-                  setRetryCount(prev => prev + 1);
-                  fetchExams();
-                }}
-              >
-                Reintentar
-              </Button>
-            )
-          }
-        >
-          {error}
-          {retryCount > 0 && ` (Intento ${retryCount}/3)`}
-        </Alert>
-      )}
-      
-      {/* Tabla de exámenes */}
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell><strong>Título</strong></TableCell>
-              <TableCell><strong>Descripción</strong></TableCell>
-              <TableCell><strong>Fecha Inicio</strong></TableCell>
-              <TableCell><strong>Fecha Fin</strong></TableCell>
-              <TableCell><strong>Acciones</strong></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {exams.length > 0 ? (
-              exams.map((exam) => (
-                <TableRow key={exam.id} hover>
-                  <TableCell>{exam.titulo}</TableCell>
-                  <TableCell>{exam.descripcion}</TableCell>
-                  <TableCell>{new Date(exam.fechaInicio).toLocaleDateString()}</TableCell>
-                  <TableCell>{new Date(exam.fechaFin).toLocaleDateString()}</TableCell>
-                  <TableCell>
-                    <Tooltip title="Editar">
-                      <IconButton 
-                        color="primary" 
-                        onClick={() => handleEdit(exam)}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Eliminar">
-                      <IconButton 
-                        color="error"
-                        onClick={() => handleDeleteClick(exam)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Tooltip>
+      </div>
+
+      {/* Contenedor de la tabla */}
+      <div className="exams-table-container">
+        {/* Estado de carga */}
+        {loading && (
+          <div className="loading-container">
+            <CircularProgress />
+          </div>
+        )}
+        
+        {/* Mensaje de error */}
+        {error && (
+          <Alert 
+            severity="error"
+            className="error-container"
+            action={
+              retryCount < 3 && (
+                <Button 
+                  color="inherit" 
+                  size="small" 
+                  onClick={() => {
+                    setRetryCount(prev => prev + 1);
+                    fetchExams();
+                  }}
+                >
+                  Reintentar
+                </Button>
+              )
+            }
+          >
+            {error}
+            {retryCount > 0 && ` (Intento ${retryCount}/3)`}
+          </Alert>
+        )}
+        
+        {/* Tabla de exámenes */}
+        <TableContainer>
+          <Table className="exams-table">
+            <TableHead>
+              <TableRow>
+                <TableCell className="table-header-cell"><strong>Título</strong></TableCell>
+                <TableCell className="table-header-cell"><strong>Descripción</strong></TableCell>
+                <TableCell className="table-header-cell"><strong>Fecha Inicio</strong></TableCell>
+                <TableCell className="table-header-cell"><strong>Fecha Fin</strong></TableCell>
+                <TableCell className="table-header-cell"><strong>Acciones</strong></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {exams.length > 0 ? (
+                exams.map((exam) => (
+                  <TableRow key={exam.id} hover>
+                    <TableCell className="table-cell">{exam.titulo}</TableCell>
+                    <TableCell className="table-cell">{exam.descripcion}</TableCell>
+                    <TableCell className="table-cell">{new Date(exam.fechaInicio).toLocaleDateString()}</TableCell>
+                    <TableCell className="table-cell">{new Date(exam.fechaFin).toLocaleDateString()}</TableCell>
+                    <TableCell className="table-cell">
+                      <Tooltip title="Editar">
+                        <IconButton 
+                          color="primary" 
+                          onClick={() => handleEdit(exam)}
+                          className="action-btn"
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Eliminar">
+                        <IconButton 
+                          color="error"
+                          onClick={() => handleDeleteClick(exam)}
+                          className="action-btn"
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={5} className="table-cell" style={{ textAlign: 'center', padding: '1rem' }}>
+                    No hay exámenes disponibles
                   </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={5} align="center">
-                  No hay exámenes disponibles
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
       
       {/* Diálogo de confirmación de eliminación */}
       <Dialog

@@ -1,41 +1,313 @@
-html, body {
+/* Reset y estilos base */
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  height: 100%; /* Asegura que ocupen toda la altura */
 }
 
-.container {
-position: relative;
-left: 230px;
-top: 178px;;
-}	
+html, body, #root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
 
 
-.admin-card-Admin {
+/* Capa oscura semi-transparente */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: -1;
+}
+
+/* Contenedor principal */
+.login-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
   position: relative;
-  left: 620px; /* Mueve la tarjeta Administrador 50px hacia la derecha */
-  top: -370px; /* Mueve la tarjeta 45px hacia arriba */
 }
 
-.welcome-text {
-  position: relative;
-  left: 182px; /* Mueve el texto hacia la derecha */
-  font-family: 'Arial', sans-serif; /* Cambia la fuente */
-  font-size: 24px; /* Cambia el tamaño de la letra */
-  font-weight: bold; /* Cambia el grosor de la letra */
-  color: #333; /* Cambia el color del texto */
-  text-align: center; /* Asegura que el texto esté centrado */
+/* Contenido principal */
+.main-content {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  flex: 1 0 auto;
 }
 
+/* Asegurar que el contenido esté por encima de la capa */
+.main-content,
 .footer {
-    position: relative;
-    left: -235px; /* Mueve el footer hacia la izquierda */
-  background-color: #161118; /* Color de fondo */
-  padding: 16px; /* Espaciado interno */
-  text-align: center; /* Centra el texto */
-width: 1755px; /* Ancho del footer */
-  font-size: 14px; /* Tamaño de la letra */
-  color: #da169f; /* Color del texto */
-  border-top: 1px solid #11742f; /* Línea superior */
-  margin: 0; /* Elimina márgenes externos */
+  position: relative;
+  z-index: 1;
+}
+
+/* Estilos para el mensaje de bienvenida */
+.welcome-section {
+  text-align: center;
+  margin-bottom: 3rem;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1rem;
+}
+
+.welcome-section h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, #1976D2, #0D47A1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.welcome-section p {
+  font-size: 1.25rem;
+  color: var(--text-secondary, rgba(0, 0, 0, 0.6));
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Grid de tarjetas */
+.roles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+/* Tarjeta de rol */
+.role-card {
+  background: var(--background-paper, #ffffff);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--divider, rgba(0, 0, 0, 0.12));
+}
+
+.role-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.role-avatar {
+  width: 100px;
+  height: 100px;
+  margin: 2rem auto 1.5rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.role-card:hover .role-avatar {
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.role-content {
+  padding: 0 1.5rem 1.5rem;
+  text-align: center;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.role-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary, rgba(0, 0, 0, 0.87));
+}
+
+.role-description {
+  color: var(--text-secondary, rgba(0, 0, 0, 0.6));
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+.role-button {
+  margin-top: auto;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  text-transform: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+/* Footer */
+.footer {
+  width: 100%;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  margin-top: auto;
+  background-color: var(--background-paper, #ffffff);
+  border-top: 1px solid var(--divider, rgba(0, 0, 0, 0.12));
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.footer-text {
+  color: var(--text-secondary, rgba(0, 0, 0, 0.6));
+  font-size: 0.875rem;
+}
+
+/* Media Queries para responsividad */
+@media (max-width: 1199px) {
+  .roles-grid {
+    max-width: 900px;
+  }
+}
+
+@media (max-width: 899px) {
+  .welcome-section h1 {
+    font-size: 2rem;
+  }
+  
+  .welcome-section p {
+    font-size: 1.1rem;
+  }
+  
+  .roles-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    max-width: 600px;
+  }
+  
+  .role-avatar {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .role-title {
+    font-size: 1.35rem;
+  }
+  
+  .role-description {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 599px) {
+  .main-content {
+    padding: 1.5rem 0.75rem;
+  }
+  
+  .welcome-section {
+    margin-bottom: 2rem;
+    padding: 0 0.75rem;
+  }
+  
+  .welcome-section h1 {
+    font-size: 1.75rem;
+  }
+  
+  .welcome-section p {
+    font-size: 1rem;
+  }
+  
+  .roles-grid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    padding: 0 0.75rem;
+    gap: 1.5rem;
+  }
+  
+  .role-avatar {
+    width: 80px;
+    height: 80px;
+    margin: 1.5rem auto 1rem;
+  }
+  
+  .role-content {
+    padding: 0 1.25rem 1.25rem;
+  }
+  
+  .role-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .role-description {
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .role-button {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.95rem;
+  }
+  
+  .footer {
+    padding: 1.25rem 0.75rem;
+  }
+  
+  .footer-text {
+    font-size: 0.8rem;
+  }
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  .welcome-section h1 {
+    background: linear-gradient(45deg, #90CAF9, #64B5F6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .welcome-section p {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .role-card {
+    background-color: var(--background-paper, #1e1e1e);
+    border-color: var(--divider, rgba(255, 255, 255, 0.12));
+  }
+  
+  .role-title {
+    color: var(--text-primary, rgba(255, 255, 255, 0.87));
+  }
+  
+  .role-description {
+    color: var(--text-secondary, rgba(255, 255, 255, 0.6));
+  }
+  
+  .footer {
+    background-color: var(--background-paper, #1e1e1e);
+    border-top-color: var(--divider, rgba(255, 255, 255, 0.12));
+  }
+  
+  .footer-text {
+    color: var(--text-secondary, rgba(255, 255, 255, 0.6));
+  }
 }

@@ -1,13 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Button, Container, Paper, Grid, Card, CardContent, CardActions, Chip } from '@mui/material';
+import { Box, Typography, Button, Container, Grid, Card, CardContent, Chip } from '@mui/material';
 import { Add as AddIcon, School as SchoolIcon, People as PeopleIcon } from '@mui/icons-material';
+import './CoursesPage.css';
 
 // Datos de ejemplo - En una aplicación real, esto vendría de la API
 const sampleCourses = [
-  { id: 1, name: 'Matemáticas Básicas', code: 'MATH-101', students: 25 },
-  { id: 2, name: 'Programación I', code: 'PROG-101', students: 30 },
-  { id: 3, name: 'Base de Datos', code: 'DB-201', students: 20 },
-  { id: 4, name: 'Inteligencia Artificial', code: 'AI-301', students: 15 },
+  { 
+    id: 1, 
+    name: 'Matemáticas Básicas', 
+    code: 'MATH-101', 
+    students: 25,
+    description: 'Curso introductorio a las matemáticas básicas y álgebra.'
+  },
+  { 
+    id: 2, 
+    name: 'Programación I', 
+    code: 'PROG-101', 
+    students: 30,
+    description: 'Introducción a la programación con Python.'
+  },
+  { 
+    id: 3, 
+    name: 'Base de Datos', 
+    code: 'DB-201', 
+    students: 20,
+    description: 'Fundamentos de diseño y consulta de bases de datos relacionales.'
+  },
+  { 
+    id: 4, 
+    name: 'Inteligencia Artificial', 
+    code: 'AI-301', 
+    students: 15,
+    description: 'Conceptos básicos de inteligencia artificial y machine learning.'
+  },
+  // Agregando más cursos para probar el layout
+  { 
+    id: 5, 
+    name: 'Desarrollo Web', 
+    code: 'WEB-201', 
+    students: 28,
+    description: 'Desarrollo de aplicaciones web modernas con React y Node.js.'
+  },
+  { 
+    id: 6, 
+    name: 'Seguridad Informática', 
+    code: 'SEC-301', 
+    students: 18,
+    description: 'Principios de seguridad en sistemas informáticos y redes.'
+  },
 ];
 
 const CoursesPage = () => {
@@ -34,50 +74,67 @@ const CoursesPage = () => {
     fetchCourses();
   }, []);
 
-  if (loading) return <Typography>Cargando cursos...</Typography>;
+  if (loading) return <Box className="courses-container"><Typography>Cargando cursos...</Typography></Box>;
 
   return (
-    <Container maxWidth="lg">
-      <Box sx={{ my: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-          <Typography variant="h4" component="h1" gutterBottom>
+    <Container maxWidth={false} className="courses-container">
+      <Box>
+        <Box className="courses-header">
+          <Typography variant="h1" className="courses-title">
             Cursos
           </Typography>
-          <Button variant="contained" startIcon={<AddIcon />}>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            startIcon={<AddIcon />}
+            className="new-course-btn"
+          >
             Nuevo Curso
           </Button>
         </Box>
 
-        <Grid container spacing={3}>
+        <Grid container spacing={3} className="courses-grid" justifyContent="flex-end">
           {courses.map((course) => (
-            <Grid key={course.id} xs={12} sm={6} md={4}>
-              <Paper elevation={3}>
-                <Card>
-                  <CardContent>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                      <SchoolIcon color="primary" sx={{ mr: 1 }} />
-                      <Typography variant="h6" component="div">
-                        {course.name}
-                      </Typography>
+            <Grid item key={course.id} xs={12} sm={6} md={4} lg={3}>
+              <article className="course-card">
+                <CardContent className="course-card-content">
+                  <Box className="course-header">
+                    <Box className="course-icon">
+                      <SchoolIcon fontSize="medium" />
                     </Box>
-                    <Typography variant="body2" color="text.secondary" gutterBottom>
-                      Código: {course.code}
+                    <Typography variant="h2" className="course-title">
+                      {course.name}
                     </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
-                      <PeopleIcon color="action" sx={{ mr: 1 }} />
-                      <Typography variant="body2">
-                        {course.students} estudiantes
-                      </Typography>
+                  </Box>
+                  
+                  <Chip 
+                    label={course.code} 
+                    size="small" 
+                    className="course-code"
+                    variant="outlined"
+                  />
+                  
+                  <Typography variant="body2" color="text.secondary" sx={{ mt: 2, mb: 1 }}>
+                    {course.description}
+                  </Typography>
+                  
+                  <Box className="course-meta">
+                    <Box className="course-students">
+                      <PeopleIcon fontSize="small" />
+                      <span>{course.students} estudiantes</span>
                     </Box>
-                  </CardContent>
-                  <CardActions sx={{ justifyContent: 'flex-end' }}>
-                    <Button size="small">Ver detalles</Button>
-                    <Button size="small" color="primary">
-                      Editar
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Paper>
+                  </Box>
+                </CardContent>
+                
+                <Box className="course-actions">
+                  <Button size="small" color="primary" variant="outlined">
+                    Ver detalles
+                  </Button>
+                  <Button size="small" color="primary" variant="contained">
+                    Editar
+                  </Button>
+                </Box>
+              </article>
             </Grid>
           ))}
         </Grid>

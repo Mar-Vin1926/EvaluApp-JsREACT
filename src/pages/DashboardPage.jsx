@@ -1,113 +1,176 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
 import { 
-  Container, 
-  Typography, 
   Box, 
+  Grid, 
   Paper, 
-  Grid,
-  Card,
-  CardContent,
+  Card, 
+  CardContent, 
+  Typography, 
+  Divider,
+  Avatar,
   CardHeader,
-  Divider
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  IconButton,
+  useTheme,
+  Container
 } from '@mui/material';
 import {
+  People as PeopleIcon,
+  Assignment as AssignmentIcon,
   School as SchoolIcon,
-  Quiz as QuizIcon,
-  BarChart as ChartIcon,
-  People as PeopleIcon
+  AccessTime as AccessTimeIcon,
+  Notifications as NotificationsIcon,
+  MoreVert as MoreVertIcon,
+  CheckCircle as CheckCircleIcon,
+  Warning as WarningIcon,
+  Error as ErrorIcon,
+  Info as InfoIcon
 } from '@mui/icons-material';
+import './DashboardPage.css';
 
 const DashboardPage = () => {
   const { user } = useAuth();
-
-  // Datos de ejemplo para las tarjetas
+  const theme = useTheme();
+  
+  // Datos de ejemplo para las estadísticas
   const stats = [
-    { title: 'Exámenes', value: '12', icon: <QuizIcon fontSize="large" />, color: 'primary' },
-    { title: 'Estudiantes', value: '85', icon: <PeopleIcon fontSize="large" />, color: 'secondary' },
-    { title: 'Resultados', value: '245', icon: <ChartIcon fontSize="large" />, color: 'success' },
-    { title: 'Cursos', value: '8', icon: <SchoolIcon fontSize="large" />, color: 'warning' },
+    { 
+      title: 'Total Estudiantes', 
+      value: '1,245', 
+      icon: <PeopleIcon color="primary" fontSize="large" />,
+      color: theme.palette.primary.main 
+    },
+    { 
+      title: 'Exámenes Activos', 
+      value: '12', 
+      icon: <AssignmentIcon color="secondary" fontSize="large" />,
+      color: theme.palette.secondary.main 
+    },
+    { 
+      title: 'Cursos', 
+      value: '8', 
+      icon: <SchoolIcon style={{ color: '#4caf50' }} fontSize="large" />,
+      color: '#4caf50'
+    },
+    { 
+      title: 'Promedio General', 
+      value: '8.7/10', 
+      icon: <AccessTimeIcon style={{ color: '#ff9800' }} fontSize="large" />,
+      color: '#ff9800'
+    },
+  ];
+
+  // Actividades recientes
+  const activities = [
+    { id: 1, user: 'Juan Pérez', action: 'completó el examen de Matemáticas', time: 'Hace 5 minutos', icon: <CheckCircleIcon color="success" /> },
+    { id: 2, user: 'María García', action: 'envió una tarea de Ciencias', time: 'Hace 1 hora', icon: <AssignmentIcon color="primary" /> },
+    { id: 3, user: 'Carlos López', action: 'preguntó sobre el próximo examen', time: 'Hace 3 horas', icon: <InfoIcon color="info" /> },
+  ];
+
+  // Notificaciones
+  const notifications = [
+    { id: 1, title: 'Nuevo mensaje', description: 'Tienes un nuevo mensaje del profesor', time: 'Hace 10 min', icon: <NotificationsIcon color="primary" /> },
+    { id: 2, title: 'Tarea pendiente', description: 'La tarea de Historia está por vencer', time: 'Hace 1 día', icon: <WarningIcon color="warning" /> },
+    { id: 3, title: 'Examen calificado', description: 'Tu examen de Matemáticas ha sido calificado', time: 'Hace 2 días', icon: <CheckCircleIcon color="success" /> },
   ];
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Panel de Control
-      </Typography>
-      <Typography variant="subtitle1" color="text.secondary" paragraph>
-        Bienvenido/a, {user?.name || 'Usuario'}
-      </Typography>
+    <div className="dashboard-container">
+      {/* Encabezado */}
+      <div className="dashboard-header">
+        <h1 className="dashboard-title">Panel de Control</h1>
+        <p className="dashboard-subtitle">
+          Bienvenido al panel de administración de EvaluApp. Aquí puedes ver un resumen de la actividad reciente y las estadísticas principales.
+        </p>
+      </div>
 
-      {/* Tarjetas de estadísticas */}
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        {stats.map((stat, index) => (
-          <Grid xs={12} sm={6} md={3} key={index}>
-            <Paper elevation={3} sx={{ height: '100%' }}>
+      {/* Estadísticas */}
+      <div className="stats-grid">
+        <Grid container spacing={3}>
+          {stats.map((stat, index) => (
+            <Grid item xs={12} sm={6} md={3} key={index}>
+              <Card className="stat-card" style={{ borderLeft: `4px solid ${stat.color}` }}>
+                <CardContent>
+                  <div className="stat-label">
+                    {stat.icon}
+                    <span>{stat.title}</span>
+                  </div>
+                  <div className="stat-value">{stat.value}</div>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </div>
+
+      {/* Sección de actividades y notificaciones */}
+      <Grid container spacing={4}>
+        {/* Actividades recientes */}
+        <Grid item xs={12} md={8}>
+          <div className="dashboard-section">
+            <h2 className="section-title">
+              <AccessTimeIcon /> Actividad Reciente
+            </h2>
+            <Paper elevation={0} sx={{ borderRadius: 2, overflow: 'hidden' }}>
               <Card>
                 <CardContent>
-                  <Box display="flex" justifyContent="space-between" alignItems="center">
-                    <div>
-                      <Typography color="textSecondary" gutterBottom>
-                        {stat.title}
-                      </Typography>
-                      <Typography variant="h4" component="div">
-                        {stat.value}
-                      </Typography>
-                    </div>
-                    <Box
-                      sx={{
-                        backgroundColor: `${stat.color}.light`,
-                        color: `${stat.color}.contrastText`,
-                        borderRadius: '50%',
-                        width: 56,
-                        height: 56,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}
-                    >
-                      {stat.icon}
-                    </Box>
-                  </Box>
+                  <List>
+                    {activities.map((activity) => (
+                      <div key={activity.id} className="activity-item">
+                        <Avatar className="activity-avatar">
+                          {activity.icon}
+                        </Avatar>
+                        <div className="activity-content">
+                          <p className="activity-text">
+                            <strong>{activity.user}</strong> {activity.action}
+                          </p>
+                          <span className="activity-time">{activity.time}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </List>
                 </CardContent>
               </Card>
             </Paper>
-          </Grid>
-        ))}
-      </Grid>
+          </div>
+        </Grid>
 
-      {/* Sección de actividades recientes */}
-      <Grid container spacing={3}>
-        <Grid xs={12} md={6}>
-          <Paper elevation={3} sx={{ p: 2 }}>
-            <CardHeader 
-              title="Actividad Reciente" 
-              titleTypographyProps={{ variant: 'h6' }}
-            />
-            <Divider />
-            <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                No hay actividades recientes.
-              </Typography>
-            </CardContent>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Paper elevation={3} sx={{ p: 2 }}>
-            <CardHeader 
-              title="Notificaciones" 
-              titleTypographyProps={{ variant: 'h6' }}
-            />
-            <Divider />
-            <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                No hay notificaciones nuevas.
-              </Typography>
-            </CardContent>
-          </Paper>
+        {/* Notificaciones */}
+        <Grid item xs={12} md={4}>
+          <div className="dashboard-section">
+            <h2 className="section-title">
+              <NotificationsIcon /> Notificaciones
+            </h2>
+            <Paper elevation={0} sx={{ borderRadius: 2, overflow: 'hidden' }}>
+              <Card>
+                <CardContent>
+                  <List>
+                    {notifications.map((notification) => (
+                      <div key={notification.id} className="activity-item">
+                        <Avatar className="activity-avatar">
+                          {notification.icon}
+                        </Avatar>
+                        <div className="activity-content">
+                          <p className="activity-text">
+                            <strong>{notification.title}</strong>
+                            <span className="activity-time">{notification.time}</span>
+                          </p>
+                          <p className="activity-text">{notification.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </List>
+                </CardContent>
+              </Card>
+            </Paper>
+          </div>
         </Grid>
       </Grid>
-    </Container>
+    </div>
   );
 };
 
