@@ -19,13 +19,49 @@
   gap: 1rem;
 }
 
-/* Título */
 .exams-title {
-  font-size: 4.5rem;
-  font-weight: 600;
-  color: #06192b; /* Color primario de Material-UI */
-  margin: 0;
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #0d35b8; /* Color sólido de respaldo */
+  background: linear-gradient(90deg, #0d35b8, #1a3fd3, #0d35b8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px rgba(13, 53, 184, 0.3);
+  text-stroke: 1px rgba(13, 53, 184, 0.3);
+  margin: 0 0 2rem 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 1.25rem;
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  font-variant: small-caps; /* Versalitas para mejor legibilidad */
+  letter-spacing: 0.5px;
+  line-height: 1.1;
+  text-shadow: 
+    0 2px 4px rgba(13, 53, 184, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.4) inset;
+  position: relative;
+  padding: 0.5rem 1rem;
 }
+
+.exams-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #0d35b8, #3f51b5, #0d35b8);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.exams-title:hover::after {
+  transform: scaleX(1);
+}
+
+
 
 /* Botón de nuevo examen */
 .new-exam-btn {

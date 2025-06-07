@@ -15,17 +15,56 @@
 
 /* Título del dashboard */
 .dashboard-title {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 2.75rem;
-  font-weight: 800;
-  color: #1a237e;
-  margin-bottom: 0.5rem;
-  position: relative;
-  display: inline-block;
-  background: linear-gradient(90deg, #1a237e, #3949ab);
+  font-size: 3rem; /* Tamaño aumentado */
+  font-weight: 900; /* Más grueso */
+  color: #1a237e; /* Color de respaldo */
+  background: linear-gradient(90deg, #1a237e, #3949ab, #5c6bc0, #3949ab, #1a237e);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px rgba(26, 35, 126, 0.3);
+  text-stroke: 1px rgba(26, 35, 126, 0.3);
+  margin: 0 0 0.5rem 0;
+  display: inline-block;
+  position: relative;
+  padding: 0.5rem 1rem;
+  text-shadow: 
+    0 2px 4px rgba(26, 35, 126, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.4) inset;
+  letter-spacing: 0.5px;
+  line-height: 1.1;
+  font-family: 'Montserrat', 'Segoe UI', sans-serif;
+  text-transform: uppercase;
   animation: textShine 3s ease-in-out infinite alternate;
+}
+
+.dashboard-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 1rem; /* Alineado con el padding del título */
+  width: 80%;
+  height: 3px;
+  background: linear-gradient(90deg, #0d35b8, #3f51b5, #0d35b8);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 2px;
+}
+
+.dashboard-title:hover::after {
+  transform: scaleX(1);
+}
+
+@keyframes textShine {
+  0% {
+    background-position: 0% 50%;
+    text-shadow: 0 2px 4px rgba(26, 35, 126, 0.1);
+  }
+  100% {
+    background-position: 100% 50%;
+    text-shadow: 0 4px 8px rgba(57, 73, 171, 0.2);
+  }
 }
 
 /* Subtítulo del dashboard */

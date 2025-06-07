@@ -16,34 +16,46 @@
   flex-wrap: wrap;
   gap: 1rem;
 }
-
 .courses-title {
-  font-family: 'Montserrat', 'Segoe UI', sans-serif;
   font-size: 2.8rem;
-  font-weight: 1800;  /* Cambiado de 700 a 800 */
-  color: #0d17838f;
-  margin: 0 0 0.5rem 0;
-  position: relative;
-  display: inline-block;
-  letter-spacing: -0.5px;
-  line-height: 1.2;
-  background: linear-gradient(90deg, #1a237e 0%, #283593 100%);
+  font-weight: 900;
+  color: #0d1783; /* Color sólido de respaldo */
+  background: linear-gradient(90deg, #0d1783, #1a27b8, #0d1783);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding-bottom: 0.5rem;
-  -webkit-text-stroke: 0.2px #1a237e;  /* Borde sutil para más grosor */
+  -webkit-text-stroke: 1px rgba(13, 23, 131, 0.3);
+  text-stroke: 1px rgba(13, 23, 131, 0.3);
+  margin: 0 0 2rem 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 1.25rem;
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  font-variant: small-caps;
+  letter-spacing: 0.5px;
+  line-height: 1.1;
+  text-shadow: 
+    0 2px 4px rgba(13, 23, 131, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.4) inset;
+  position: relative;
+  padding: 0.5rem 1rem;
 }
 
 .courses-title::after {
   content: '';
   position: absolute;
-  width: 60%;
-  height: 4px;
-  background: linear-gradient(90deg, #3f51b5, #2196f3);
-  bottom: -10px;
+  bottom: 0;
   left: 0;
-  border-radius: 2px;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #0d1783, #1a27b8, #0d1783);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.courses-title:hover::after {
+  transform: scaleX(1);
 }
 
 /* Grid de cursos */
