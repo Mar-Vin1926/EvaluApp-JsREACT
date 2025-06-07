@@ -26,8 +26,10 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { es } from 'date-fns/locale';
 import { examService } from '../../services/api';
 import { format, isBefore, addDays, parseISO } from 'date-fns';
+import { useAuth } from '../../context/AuthContext';
 
 const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     titulo: '',
     descripcion: '',
@@ -249,7 +251,6 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitError('');
-    
     if (!validateForm()) {
       setSnackbar({
         open: true,
@@ -258,24 +259,18 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
       });
       return;
     }
-    
     setLoading(true);
-    
     try {
-      // Preparar los datos del examen
+      // Preparar los datos del examen según ExamenRequestDTO
       const examData = {
         titulo: formData.titulo.trim(),
         descripcion: formData.descripcion.trim(),
         fechaInicio: format(new Date(formData.fechaInicio), 'yyyy-MM-dd'),
         fechaFin: format(new Date(formData.fechaFin), 'yyyy-MM-dd'),
-        duracionMinutos: parseInt(formData.duracionMinutos, 10),
-        intentosPermitidos: parseInt(formData.intentosPermitidos, 10),
+        creadorId: user?.id // <-- obligatorio para el backend
       };
-      
       console.log(`[ExamForm] ${exam ? 'Actualizando' : 'Creando'} examen:`, examData);
-      
       if (exam) {
-        // Actualizar examen existente
         await examService.updateExam(exam.id, examData);
         setSnackbar({
           open: true,
@@ -283,7 +278,6 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
           severity: 'success'
         });
       } else {
-        // Crear nuevo examen
         await examService.createExam(examData);
         setSnackbar({
           open: true,
@@ -291,28 +285,21 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
           severity: 'success'
         });
       }
-      
-      // Llamar a onSuccess para actualizar la lista de exámenes
       if (typeof onSuccess === 'function') {
         await onSuccess();
       }
-      
-      // Cerrar el diálogo después de un breve retraso para mostrar el mensaje
       setTimeout(() => {
         handleClose();
       }, 1000);
-      
     } catch (error) {
       console.error('[ExamForm] Error al guardar el examen:', {
         error,
         response: error.response?.data,
         status: error.response?.status
       });
-      
       const errorMessage = error.response?.data?.message || 
                          error.message || 
                          'Error al guardar el examen. Por favor, inténtalo de nuevo.';
-      
       setSubmitError(errorMessage);
       setSnackbar({
         open: true,
