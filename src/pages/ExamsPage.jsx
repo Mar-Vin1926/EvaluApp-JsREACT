@@ -53,11 +53,9 @@ const ExamsPage = () => {
       console.log('[ExamsPage] Solicitando exámenes...');
       const response = await examService.getAllExams();
       
-      // Verificar si la respuesta es un array
       const examsData = Array.isArray(response.data) ? response.data : [];
       console.log(`[ExamsPage] Se obtuvieron ${examsData.length} exámenes`, examsData);
       
-      // Transformar fechas a objetos Date
       const formattedExams = examsData.map(exam => ({
         ...exam,
         fechaInicio: exam.fechaInicio ? new Date(exam.fechaInicio) : null,
@@ -65,7 +63,7 @@ const ExamsPage = () => {
       }));
       
       setExams(formattedExams);
-      setRetryCount(0); // Reset retry count on success
+      setRetryCount(0);
     } catch (error) {
       console.error('[ExamsPage] Error al cargar los exámenes:', {
         name: error.name,
@@ -84,7 +82,6 @@ const ExamsPage = () => {
       setError(errorText);
       setLastErrorTime(new Date());
       
-      // Mostrar notificación de error
       setSnackbar({
         open: true,
         message: isServerError 
@@ -105,9 +102,8 @@ const ExamsPage = () => {
         ) : null
       });
       
-      // Auto-retry for server errors (max 3 retries)
       if (isServerError && retryCount < 3) {
-        const delay = Math.min(1000 * Math.pow(2, retryCount), 10000); // Exponential backoff, max 10s
+        const delay = Math.min(1000 * Math.pow(2, retryCount), 10000);
         console.log(`[ExamsPage] Reintentando en ${delay}ms... (${retryCount + 1}/3)`);
         const timer = setTimeout(() => {
           setRetryCount(prev => prev + 1);
@@ -124,7 +120,6 @@ const ExamsPage = () => {
   useEffect(() => {
     console.log('[ExamsPage] Montando componente, cargando exámenes...');
     
-    // Solo intentar cargar si no estamos en un estado de error reciente
     const timeSinceLastError = lastErrorTime ? (new Date() - lastErrorTime) / 1000 : null;
     if (!lastErrorTime || timeSinceLastError > 30 || retryCount > 0) {
       fetchExams();
@@ -132,7 +127,6 @@ const ExamsPage = () => {
     
     return () => {
       console.log('[ExamsPage] Desmontando componente');
-      // No limpiar el estado para mantener el último estado en caso de recarga
     };
   }, [fetchExams, retryCount, lastErrorTime]);
 
@@ -156,7 +150,6 @@ const ExamsPage = () => {
       setLoading(true);
       
       if (currentExam) {
-        // Actualizar examen existente
         console.log('[ExamsPage] Actualizando examen:', { id: currentExam.id, data: examData });
         await examService.updateExam(currentExam.id, examData);
         setSnackbar({
@@ -165,7 +158,6 @@ const ExamsPage = () => {
           severity: 'success'
         });
       } else {
-        // Crear nuevo examen
         console.log('[ExamsPage] Creando nuevo examen:', examData);
         await examService.createExam(examData);
         setSnackbar({
@@ -177,7 +169,7 @@ const ExamsPage = () => {
       
       setOpenDialog(false);
       setCurrentExam(null);
-      await fetchExams(); // Recargar la lista
+      await fetchExams();
     } catch (error) {
       console.error('Error al guardar el examen:', {
         error,
@@ -199,17 +191,15 @@ const ExamsPage = () => {
   const handleDeleteClick = (exam) => {
     setDeleteDialog({
       open: true,
-      exam: exam
+      exam
     });
   };
 
-  const handleConfirmDelete = async () => {
+  const handleDeleteConfirm = async () => {
     if (!deleteDialog.exam) return;
     
     try {
       setLoading(true);
-      console.log(`[ExamsPage] Eliminando examen ID: ${deleteDialog.exam.id}`);
-      
       await examService.deleteExam(deleteDialog.exam.id);
       
       setSnackbar({
@@ -219,18 +209,13 @@ const ExamsPage = () => {
       });
       
       setDeleteDialog({ open: false, exam: null });
-      await fetchExams(); // Recargar la lista
+      await fetchExams();
     } catch (error) {
-      console.error('Error al eliminar el examen:', {
-        error,
-        response: error.response?.data,
-        status: error.response?.status
-      });
+      console.error('Error al eliminar el examen:', error);
       
-      const errorMessage = error.response?.data?.message || error.message;
       setSnackbar({
         open: true,
-        message: `Error al eliminar el examen: ${errorMessage || 'Error desconocido'}`,
+        message: `Error al eliminar el examen: ${error.response?.data?.message || error.message}`,
         severity: 'error'
       });
     } finally {
@@ -238,7 +223,7 @@ const ExamsPage = () => {
     }
   };
 
-  const handleCancelDelete = () => {
+  const handleCloseDeleteDialog = () => {
     setDeleteDialog({ open: false, exam: null });
   };
 
@@ -251,15 +236,8 @@ const ExamsPage = () => {
 
   return (
     <div className="exams-container">
-      {/* Encabezado con título y botón */}
       <div className="exams-header">
-        <Typography 
-          variant="h3" 
-          component="h1" 
-          className="exams-title"
-        >
-          Exámenes
-        </Typography>
+        <h1 className="exams-title">Exámenes</h1>
         <Button
           variant="contained"
           color="primary"
@@ -271,50 +249,24 @@ const ExamsPage = () => {
         </Button>
       </div>
 
-      {/* Contenedor de la tabla */}
-      <div className="exams-table-container">
-        {/* Estado de carga */}
-        {loading && (
-          <div className="loading-container">
+      <div className="table-responsive">
+        {loading ? (
+          <Box display="flex" justifyContent="center" my={4}>
             <CircularProgress />
-          </div>
-        )}
-        
-        {/* Mensaje de error */}
-        {error && (
-          <Alert 
-            severity="error"
-            className="error-container"
-            action={
-              retryCount < 3 && (
-                <Button 
-                  color="inherit" 
-                  size="small" 
-                  onClick={() => {
-                    setRetryCount(prev => prev + 1);
-                    fetchExams();
-                  }}
-                >
-                  Reintentar
-                </Button>
-              )
-            }
-          >
+          </Box>
+        ) : error ? (
+          <Alert severity="error" sx={{ mb: 2 }}>
             {error}
-            {retryCount > 0 && ` (Intento ${retryCount}/3)`}
           </Alert>
-        )}
-        
-        {/* Tabla de exámenes */}
-        <TableContainer>
+        ) : (
           <Table className="exams-table">
             <TableHead>
               <TableRow>
-                <TableCell className="table-header-cell"><strong>Título</strong></TableCell>
-                <TableCell className="table-header-cell"><strong>Descripción</strong></TableCell>
-                <TableCell className="table-header-cell"><strong>Fecha Inicio</strong></TableCell>
-                <TableCell className="table-header-cell"><strong>Fecha Fin</strong></TableCell>
-                <TableCell className="table-header-cell"><strong>Acciones</strong></TableCell>
+                <TableCell className="table-header-cell">Título</TableCell>
+                <TableCell className="table-header-cell">Descripción</TableCell>
+                <TableCell className="table-header-cell">Fecha Inicio</TableCell>
+                <TableCell className="table-header-cell">Fecha Fin</TableCell>
+                <TableCell className="table-header-cell">Acciones</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -323,81 +275,92 @@ const ExamsPage = () => {
                   <TableRow key={exam.id} hover>
                     <TableCell className="table-cell">{exam.titulo}</TableCell>
                     <TableCell className="table-cell">{exam.descripcion}</TableCell>
-                    <TableCell className="table-cell">{new Date(exam.fechaInicio).toLocaleDateString()}</TableCell>
-                    <TableCell className="table-cell">{new Date(exam.fechaFin).toLocaleDateString()}</TableCell>
                     <TableCell className="table-cell">
-                      <Tooltip title="Editar">
-                        <IconButton 
-                          color="primary" 
-                          onClick={() => handleEdit(exam)}
-                          className="action-btn"
-                        >
-                          <EditIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Eliminar">
-                        <IconButton 
-                          color="error"
-                          onClick={() => handleDeleteClick(exam)}
-                          className="action-btn"
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
+                      {exam.fechaInicio ? new Date(exam.fechaInicio).toLocaleDateString() : 'No definida'}
+                    </TableCell>
+                    <TableCell className="table-cell">
+                      {exam.fechaFin ? new Date(exam.fechaFin).toLocaleDateString() : 'No definida'}
+                    </TableCell>
+                    <TableCell>
+                      <div className="action-buttons">
+                        <Tooltip title="Editar">
+                          <IconButton 
+                            color="primary" 
+                            onClick={() => handleEdit(exam)}
+                            className="action-btn"
+                            size="small"
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Eliminar">
+                          <IconButton 
+                            color="error"
+                            onClick={() => handleDeleteClick(exam)}
+                            className="action-btn"
+                            size="small"
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={5} className="table-cell" style={{ textAlign: 'center', padding: '1rem' }}>
+                  <TableCell colSpan={5} className="no-exams">
                     No hay exámenes disponibles
                   </TableCell>
                 </TableRow>
               )}
             </TableBody>
           </Table>
-        </TableContainer>
+        )}
       </div>
-      
+
       {/* Diálogo de confirmación de eliminación */}
       <Dialog
         open={deleteDialog.open}
-        onClose={handleCancelDelete}
+        onClose={handleCloseDeleteDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
       >
-        <DialogTitle>Confirmar eliminación</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Confirmar eliminación</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            ¿Estás seguro de que deseas eliminar el examen "{deleteDialog.exam?.titulo}"?
+          <DialogContentText id="alert-dialog-description">
+            ¿Estás seguro de que deseas eliminar el examen "{deleteDialog.exam?.titulo}"? Esta acción no se puede deshacer.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancelDelete} color="primary">
+          <Button onClick={handleCloseDeleteDialog} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleConfirmDelete} color="error" variant="contained">
+          <Button onClick={handleDeleteConfirm} color="error" autoFocus>
             Eliminar
           </Button>
         </DialogActions>
       </Dialog>
-      
-      {/* Diálogo de formulario */}
+
+      {/* Formulario de creación/edición */}
       <ExamForm
         open={openDialog}
-        onClose={handleCloseForm}
-        onSubmit={handleSubmit}
+        handleClose={handleCloseForm}
         exam={currentExam}
+        onSuccess={fetchExams}
       />
-      
+
       {/* Notificación */}
       <Snackbar
         open={snackbar.open}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        message={snackbar.message}
+        action={snackbar.action}
       >
         <Alert 
           onClose={handleCloseSnackbar} 
-          severity={snackbar.severity}
+          severity={snackbar.severity} 
           sx={{ width: '100%' }}
         >
           {snackbar.message}
