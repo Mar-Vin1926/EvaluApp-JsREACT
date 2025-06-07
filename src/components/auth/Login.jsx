@@ -1,4 +1,5 @@
 import React from 'react';
+import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
 import {
@@ -119,35 +120,28 @@ const Login = () => {
             mb={{ xs: 4, sm: 6, md: 8 }}
             sx={{ width: '100%' }}
           >
-            <Typography 
-              variant={isMobile ? 'h4' : 'h3'} 
-              component="h1" 
-              gutterBottom
-              sx={{
-                fontWeight: 700,
-                color: '#ffffff',
-                textShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)',
-                mb: 2,
-                width: '100%',
-                px: { xs: 1, sm: 2 }
-              }}
-            >
-              Bienvenido a EvaluApp
-            </Typography>
-            <Typography 
-              variant={isMobile ? 'subtitle1' : 'h6'} 
-              sx={{
-                color: '#ffffff',
-                maxWidth: 800,
-                mx: 'auto',
-                lineHeight: 1.6,
-                width: '100%',
-                px: { xs: 1, sm: 2 },
-                textShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)'
-              }}
-            >
-              Por favor, selecciona tu rol para continuar
-            </Typography>
+         <Typography
+  className="welcome-title"
+  variant={isMobile ? 'h4' : 'h3'}
+  sx={{
+    width: '100%',
+    px: { xs: 1, sm: 2 }
+  }}
+>
+  Bienvenido a EvaluApp
+</Typography>
+<Typography 
+  className="welcome-subtitle"
+  variant={isMobile ? 'subtitle1' : 'h6'} 
+  sx={{
+    maxWidth: 800,
+      mt: 2,  /* Añade espacio arriba del subtítulo */
+      width: '100%',
+      px: { xs: 1, sm: 2 }
+  }}
+>
+  Por favor, selecciona tu rol para continuar
+</Typography>
           </Box>
 
           <Grid 

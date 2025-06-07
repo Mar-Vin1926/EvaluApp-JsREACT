@@ -1,4 +1,7 @@
 import React from 'react';
+
+import './DashboardPage.css';
+
 import { useAuth } from '../context/AuthContext.jsx';
 import { 
   Box, 
