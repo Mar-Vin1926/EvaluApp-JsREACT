@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './DashboardLayout.css';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
 import {
@@ -53,31 +54,34 @@ const DashboardLayout = ({ children }) => {
   ];
 
   const drawer = (
-    <div>
-      <Toolbar>
-        <Typography variant="h6" noWrap component="div">
+    <div className="drawer-container">
+      <Toolbar className="drawer-toolbar">
+        <Typography variant="h6" noWrap component="div" className="app-title">
           EvaluApp
         </Typography>
       </Toolbar>
-      <Divider />
-      <List>
+      <Divider className="divider" />
+      <List className="menu-list">
         {menuItems.map((item) => (
-          <ListItem key={item.text} disablePadding>
-            <ListItemButton onClick={() => navigate(item.path)}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
+          <ListItem key={item.text} disablePadding className="menu-item">
+            <ListItemButton 
+              onClick={() => navigate(item.path)}
+              className="menu-button"
+            >
+              <ListItemIcon className="menu-icon">{item.icon}</ListItemIcon>
+              <ListItemText primary={item.text} className="menu-text" />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
-      <Divider />
-      <List>
-        <ListItem disablePadding>
-          <ListItemButton onClick={handleLogout}>
-            <ListItemIcon>
+      <Divider className="divider" />
+      <List className="logout-list">
+        <ListItem disablePadding className="logout-item">
+          <ListItemButton onClick={handleLogout} className="logout-button">
+            <ListItemIcon className="logout-icon">
               <ExitToAppIcon />
             </ListItemIcon>
-            <ListItemText primary="Cerrar Sesión" />
+            <ListItemText primary="Cerrar Sesión" className="logout-text" />
           </ListItemButton>
         </ListItem>
       </List>
@@ -85,7 +89,7 @@ const DashboardLayout = ({ children }) => {
   );
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex' }} className="dashboard-layout">
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -93,22 +97,29 @@ const DashboardLayout = ({ children }) => {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}
+        className="app-bar"
       >
-        <Toolbar>
+        <Toolbar className="toolbar">
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: 'none' } }}
+            className="menu-toggle"
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+          <Typography 
+            variant="h6" 
+            noWrap 
+            component="div" 
+            className="page-title"
+          >
             {user?.role === 'TEACHER' ? 'Panel del Profesor' : 
              user?.role === 'STUDENT' ? 'Panel del Estudiante' : 'Panel de Administración'}
           </Typography>
-          <Typography variant="body1">
+          <Typography variant="body1" className="user-name">
             {user?.name}
           </Typography>
         </Toolbar>
@@ -117,18 +128,23 @@ const DashboardLayout = ({ children }) => {
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
+        className="sidebar"
       >
         <Drawer
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': { 
+              boxSizing: 'border-box', 
+              width: drawerWidth 
+            },
           }}
+          className="mobile-drawer"
         >
           {drawer}
         </Drawer>
@@ -136,9 +152,13 @@ const DashboardLayout = ({ children }) => {
           variant="permanent"
           sx={{
             display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': { 
+              boxSizing: 'border-box', 
+              width: drawerWidth 
+            },
           }}
           open
+          className="desktop-drawer"
         >
           {drawer}
         </Drawer>
@@ -149,8 +169,9 @@ const DashboardLayout = ({ children }) => {
           flexGrow: 1, 
           p: 3, 
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          marginTop: '64px' // Ajuste para el AppBar fijo
+          marginTop: '64px'
         }}
+        className="main-content"
       >
         {children || <Outlet />}
       </Box>
