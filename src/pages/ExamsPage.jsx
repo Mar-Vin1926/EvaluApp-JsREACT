@@ -51,9 +51,7 @@ const ExamsPage = () => {
       setError(null);
       
       console.log('[ExamsPage] Solicitando exámenes...');
-      const response = await examService.getAllExams();
-      
-      const examsData = Array.isArray(response.data) ? response.data : [];
+      const examsData = await examService.getAllExams();
       console.log(`[ExamsPage] Se obtuvieron ${examsData.length} exámenes`, examsData);
       
       const formattedExams = examsData.map(exam => ({

@@ -2,12 +2,9 @@ import axios from 'axios';
 
 // Configuración de la URL base dependiendo del entorno
 const isDevelopment = import.meta.env.DEV;
-const API_BASE_URL = isDevelopment 
-  ? ''  // Usar ruta relativa en desarrollo (el proxy manejará /api)
-  : 'https://evaluapp.onrender.com';  // URL base en producción
-
+const API_BASE_URL = 'https://evaluapp.onrender.com'; // Usar siempre la URL de la nube
 console.log(`[API] Modo: ${isDevelopment ? 'Desarrollo' : 'Producción'}`);
-console.log(`[API] URL Base: ${API_BASE_URL || '/api (proxy)'}`);
+console.log(`[API] URL Base: ${API_BASE_URL}`);
 
 // Configuración de la instancia de axios
 const api = axios.create({
@@ -199,165 +196,39 @@ export const userService = {
   getAllUsers: () => api.get('/admin/users'),
   getUserById: (id) => api.get(`/admin/users/${id}`),
   registerUser: (userData) => api.post('/admin/users/register', userData),
-  updateUser: (id, userData) => api.put(`/admin/users/${id}`, userData),
+  updateUser: (id, userData) => api.patch(`/admin/users/${id}`, userData),
   deleteUser: (id) => api.delete(`/admin/users/${id}`),
   getUsersByRole: (role) => api.get(`/admin/users/role/${role}`),
   getUserByEmail: (email) => api.get(`/admin/users/email/${email}`),
   resetPassword: (id, newPassword) => 
-    api.put(`/admin/users/${id}/reset-password?newPassword=${encodeURIComponent(newPassword)}`),
+    api.patch(`/admin/users/${id}/reset-password?newPassword=${encodeURIComponent(newPassword)}`),
   changePassword: (id, oldPassword, newPassword) => 
-    api.put(`/admin/users/${id}/password?oldPassword=${encodeURIComponent(oldPassword)}&newPassword=${encodeURIComponent(newPassword)}`),
+    api.patch(`/admin/users/${id}/password?oldPassword=${encodeURIComponent(oldPassword)}&newPassword=${encodeURIComponent(newPassword)}`),
 };
 
 // Servicios de exámenes
 export const examService = {
-  // Obtener todos los exámenes
-  getAllExams: async () => {
-    try {
-      console.log('[examService] Solicitando todos los exámenes...');
-      const response = await api.get('/api/examenes');
-      console.log('[examService] Respuesta recibida:', response);
-      return response;
-    } catch (error) {
-      console.error('[examService] Error al obtener exámenes:', {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status
-      });
-      throw error;
-    }
-  },
-  
-  // Obtener un examen por ID
-  getExamById: async (id) => {
-    try {
-      console.log(`[examService] Solicitando examen con ID: ${id}`);
-      const response = await api.get(`/api/examenes/${id}`);
-      return response;
-    } catch (error) {
-      console.error(`[examService] Error al obtener el examen ${id}:`, error.message);
-      throw error;
-    }
-  },
-  
-  // Crear un nuevo examen
-  createExam: async (examData) => {
-    try {
-      console.log('[examService] Creando nuevo examen con datos:', examData);
-      // Limpiar el objeto de campos nulos, vacíos o no deseados
-      const cleanExamData = Object.entries(examData).reduce((acc, [key, value]) => {
-        // Excluir campos que no deben enviarse o están vacíos
-        if (value !== null && value !== '' && value !== undefined) {
-          // Si es un array, verificar que no esté vacío
-          if (Array.isArray(value)) {
-            if (value.length > 0) {
-              acc[key] = value;
-            }
-          } else {
-            acc[key] = value;
-          }
-        }
-        return acc;
-      }, {});
-      
-      console.log('[examService] Datos limpios para crear examen:', cleanExamData);
-      const response = await api.post('/api/examenes', cleanExamData);
-      console.log('[examService] Respuesta del servidor:', response);
-      return response;
-    } catch (error) {
-      console.error('[examService] Error al crear examen:', {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status
-      });
-      throw error;
-    }
-  },
-  
-  // Actualizar un examen existente
-  updateExam: async (id, examData) => {
-    try {
-      console.log(`[examService] Actualizando examen ${id} con datos:`, examData);
-      const response = await api.put(`/api/examenes/${id}`, examData);
-      console.log(`[examService] Respuesta al actualizar examen ${id}:`, response);
-      return response;
-    } catch (error) {
-      console.error(`[examService] Error al actualizar el examen ${id}:`, error.message, {
-        response: error.response?.data,
-        status: error.response?.status
-      });
-      throw error;
-    }
-  },
-  
-  // Eliminar un examen
-  deleteExam: async (id) => {
-    try {
-      console.log(`[examService] Eliminando examen con ID: ${id}`);
-      const response = await api.delete(`/api/examenes/${id}`);
-      console.log(`[examService] Respuesta al eliminar examen ${id}:`, response);
-      return response;
-    } catch (error) {
-      console.error(`[examService] Error al eliminar el examen ${id}:`, error.message, {
-        response: error.response?.data,
-        status: error.response?.status
-      });
-      throw error;
-    }
-  },
-  
-  // Obtener preguntas de un examen
-  getExamQuestions: async (examId) => {
-    try {
-      console.log(`[examService] Solicitando preguntas para el examen: ${examId}`);
-      const response = await api.get(`/api/examenes/${examId}/preguntas`);
-      console.log(`[examService] Preguntas recibidas para el examen ${examId}:`, response);
-      return response;
-    } catch (error) {
-      console.error(`[examService] Error al obtener preguntas del examen ${examId}:`, error.message, {
-        response: error.response?.data,
-        status: error.response?.status
-      });
-      throw error;
-    }
-  },
-  
-  // Agregar pregunta a un examen
-  addQuestionToExam: async (examId, questionData) => {
-    try {
-      console.log(`[examService] Agregando pregunta al examen ${examId}:`, questionData);
-      const response = await api.post(`/api/examenes/${examId}/preguntas`, questionData);
-      console.log(`[examService] Respuesta al agregar pregunta al examen ${examId}:`, response);
-      return response;
-    } catch (error) {
-      console.error(`[examService] Error al agregar pregunta al examen ${examId}:`, error.message, {
-        response: error.response?.data,
-        status: error.response?.status
-      });
-      throw error;
-    }
-  },
-  
-  // Eliminar pregunta de un examen
-  removeQuestionFromExam: async (examId, questionId) => {
-    try {
-      console.log(`[examService] Eliminando pregunta ${questionId} del examen ${examId}`);
-      const response = await api.delete(`/api/examenes/${examId}/preguntas/${questionId}`);
-      console.log(`[examService] Respuesta al eliminar pregunta ${questionId} del examen ${examId}:`, response);
-      return response;
-    } catch (error) {
-      console.error(
-        `[examService] Error al eliminar la pregunta ${questionId} del examen ${examId}:`,
-        error.message,
-        {
-          response: error.response?.data,
-          status: error.response?.status
-        }
-      );
-      throw error;
-    }
-  }
+  // Métodos para gestionar exámenes
+  getAllExams: () =>
+    api.get('/api/examenes')
+      .then(res => {
+        console.log('[ExamService] Respuesta de getAllExams:', res.data);
+        if (Array.isArray(res.data)) return res.data;
+        return [];
+      })
+      .catch(err => {
+        console.error('[ExamService] Error al obtener exámenes:', err);
+        return [];
+      }),
+  getExamById: (id) => api.get(`/api/examenes/${id}`).then(res => res.data),
+  createExam: (examData) => api.post('/api/examenes', examData).then(res => res.data),
+  updateExam: (id, examData) => api.put(`/api/examenes/${id}`, examData).then(res => res.data),
+  deleteExam: (id) => api.delete(`/api/examenes/${id}`).then(res => res.data),
+  getExamQuestions: (examId) => api.get(`/api/examenes/${examId}/preguntas`).then(res => res.data),
+  addQuestionToExam: (examId, questionData) => api.post(`/api/examenes/${examId}/preguntas`, questionData).then(res => res.data),
+  removeQuestionFromExam: (examId, questionId) => api.delete(`/api/examenes/${examId}/preguntas/${questionId}`).then(res => res.data)
 };
+
 // Servicios de preguntas
 export const questionService = {
   // Preguntas
