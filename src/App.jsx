@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { AuthProvider, useAuth } from './context/AuthContext.jsx';
 import DashboardLayout from './components/layout/DashboardLayout';
 import Login from './components/auth/Login';
+import LandingPage from './pages/LandingPage';
 import DashboardPage from './pages/DashboardPage';
 import ExamsPage from './pages/ExamsPage';
 import ExamDetail from './components/exams/ExamDetail';
@@ -73,7 +74,8 @@ function App() {
       <AuthProvider>
         <Router>
           <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<Login />} />
             <Route element={
               <ProtectedRoute>
                 <DashboardLayout />

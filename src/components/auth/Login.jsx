@@ -249,6 +249,7 @@ const Login = () => {
                         color="primary"
                         size="large"
                         fullWidth
+                        onClick={() => handleRoleSelect(role.id)}
                         sx={{
                           mt: 'auto',
                           py: 1.5,
