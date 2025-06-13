@@ -53,7 +53,7 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
     if (open) {
       setSubmitError('');
       setErrors({});
-      
+
       if (exam) {
         // Cargar datos del examen existente
         setFormData({
@@ -69,7 +69,7 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
         const now = new Date();
         const defaultStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 8, 0, 0);
         const defaultEnd = addDays(defaultStart, 7);
-        
+
         setFormData({
           titulo: '',
           descripcion: '',
@@ -86,7 +86,7 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
   const validateField = (name, value) => {
     let error = '';
     const now = new Date();
-    
+
     switch (name) {
       case 'titulo':
         if (!value || !value.trim()) {
@@ -97,7 +97,7 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
           error = 'El título no puede exceder los 200 caracteres';
         }
         break;
-        
+
       case 'descripcion':
         if (!value || !value.trim()) {
           error = 'La descripción es requerida';
@@ -105,7 +105,7 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
           error = 'La descripción no puede exceder los 1000 caracteres';
         }
         break;
-        
+
       case 'fechaInicio':
         if (!value) {
           error = 'La fecha de inicio es requerida';
@@ -115,7 +115,7 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
           error = 'La fecha de inicio debe ser anterior a la fecha de fin';
         }
         break;
-        
+
       case 'fechaFin':
         if (!value) {
           error = 'La fecha de fin es requerida';
@@ -123,7 +123,7 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
           error = 'La fecha de fin debe ser posterior a la fecha de inicio';
         }
         break;
-        
+
       case 'duracionMinutos': {
         const duration = parseInt(value, 10);
         if (isNaN(duration) || duration <= 0) {
@@ -133,7 +133,7 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
         }
         break;
       }
-        
+
       case 'intentosPermitidos': {
         const attempts = parseInt(value, 10);
         if (isNaN(attempts) || attempts < 1) {
@@ -143,16 +143,16 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
         }
         break;
       }
-        
+
       default:
         break;
     }
-    
+
     setErrors(prev => ({
       ...prev,
       [name]: error
     }));
-    
+
     return !error;
   };
 
@@ -160,7 +160,7 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
   const validateForm = () => {
     const newErrors = {};
     const now = new Date();
-    
+
     // Validar título
     if (!formData.titulo.trim()) {
       newErrors.titulo = 'El título es requerido';
@@ -169,14 +169,14 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
     } else if (formData.titulo.trim().length > 200) {
       newErrors.titulo = 'El título no puede exceder los 200 caracteres';
     }
-    
+
     // Validar descripción
     if (!formData.descripcion.trim()) {
       newErrors.descripcion = 'La descripción es requerida';
     } else if (formData.descripcion.trim().length > 1000) {
       newErrors.descripcion = 'La descripción no puede exceder los 1000 caracteres';
     }
-    
+
     // Validar fechas
     if (!formData.fechaInicio) {
       newErrors.fechaInicio = 'La fecha de inicio es requerida';
@@ -184,7 +184,7 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
       // Solo validar para fechas pasadas si es un nuevo examen
       newErrors.fechaInicio = 'La fecha de inicio no puede ser en el pasado';
     }
-    
+
     if (!formData.fechaFin) {
       newErrors.fechaFin = 'La fecha de fin es requerida';
     } else if (formData.fechaInicio) {
@@ -194,21 +194,21 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
         newErrors.fechaFin = 'La fecha de fin no puede ser en el pasado';
       }
     }
-    
+
     // Validar duración
     if (!formData.duracionMinutos || formData.duracionMinutos <= 0) {
       newErrors.duracionMinutos = 'La duración debe ser mayor a 0';
     } else if (formData.duracionMinutos > 1440) { // 24 horas en minutos
       newErrors.duracionMinutos = 'La duración no puede exceder las 24 horas';
     }
-    
+
     // Validar intentos permitidos
     if (!formData.intentosPermitidos || formData.intentosPermitidos <= 0) {
       newErrors.intentosPermitidos = 'Debe permitir al menos un intento';
     } else if (formData.intentosPermitidos > 100) {
       newErrors.intentosPermitidos = 'El número máximo de intentos es 100';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -229,21 +229,21 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
 
   const handleDateChange = (name) => (date) => {
     if (!date) return;
-    
+
     // Convertir a objeto Date si es una cadena
     const dateValue = typeof date === 'string' ? parseISO(date) : date;
-    
+
     setFormData(prev => {
       const newData = {
         ...prev,
         [name]: dateValue
       };
-      
+
       // Validar fechas relacionadas
       if (name === 'fechaInicio' && formData.fechaFin) {
         validateField('fechaFin', formData.fechaFin);
       }
-      
+
       return newData;
     });
   };
@@ -297,9 +297,9 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
         response: error.response?.data,
         status: error.response?.status
       });
-      const errorMessage = error.response?.data?.message || 
-                         error.message || 
-                         'Error al guardar el examen. Por favor, inténtalo de nuevo.';
+      const errorMessage = error.response?.data?.message ||
+        error.message ||
+        'Error al guardar el examen. Por favor, inténtalo de nuevo.';
       setSubmitError(errorMessage);
       setSnackbar({
         open: true,
@@ -316,10 +316,10 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
   };
 
   return (
-    <Dialog 
-      open={open} 
-      onClose={loading ? undefined : handleClose} 
-      maxWidth="md" 
+    <Dialog
+      open={open}
+      onClose={loading ? undefined : handleClose}
+      maxWidth="md"
       fullWidth
       disableEscapeKeyDown={loading}
     >
@@ -329,7 +329,7 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
           {exam ? 'Editar Examen' : 'Nuevo Examen'}
         </Box>
       </DialogTitle>
-      
+
       <form onSubmit={handleSubmit}>
         <DialogContent dividers>
           <Grid container spacing={3} sx={{ width: '100%', m: 0 }}>
@@ -348,7 +348,7 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
                 disabled={loading}
               />
             </Grid>
-            
+
             <Grid item xs={12} sx={{ gridColumn: '1 / -1' }}>
               <TextField
                 fullWidth
@@ -366,7 +366,7 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
                 disabled={loading}
               />
             </Grid>
-            
+
             <Grid item xs={12} sx={{ gridColumn: { xs: 'span 12', md: 'span 6' } }}>
               <TextField
                 fullWidth
@@ -381,14 +381,14 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
                 margin="normal"
                 required
                 disabled={loading}
-                inputProps={{ 
-                  min: 1, 
+                inputProps={{
+                  min: 1,
                   max: 1440,
                   step: 1
                 }}
               />
             </Grid>
-            
+
             <Grid item xs={12} sx={{ gridColumn: { xs: 'span 12', md: 'span 6' } }}>
               <TextField
                 fullWidth
@@ -403,14 +403,14 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
                 margin="normal"
                 required
                 disabled={loading}
-                inputProps={{ 
-                  min: 1, 
+                inputProps={{
+                  min: 1,
                   max: 100,
                   step: 1
                 }}
               />
             </Grid>
-            
+
             <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={es}>
               <Grid item xs={12} sx={{ gridColumn: { xs: 'span 12', md: 'span 6' } }}>
                 <DemoContainer components={['DatePicker']}>
@@ -437,7 +437,7 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
                   />
                 </DemoContainer>
               </Grid>
-              
+
               <Grid item xs={12} sx={{ gridColumn: { xs: 'span 12', md: 'span 6' } }}>
                 <DemoContainer components={['DatePicker']}>
                   <DatePicker
@@ -465,18 +465,18 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
             </LocalizationProvider>
           </Grid>
         </DialogContent>
-        
+
         <DialogActions>
-          <Button 
-            onClick={handleClose} 
+          <Button
+            onClick={handleClose}
             disabled={loading}
             color="inherit"
           >
             Cancelar
           </Button>
-          <Button 
-            type="submit" 
-            variant="contained" 
+          <Button
+            type="submit"
+            variant="contained"
             color="primary"
             disabled={loading}
             startIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}
@@ -484,14 +484,14 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
             {loading ? 'Guardando...' : 'Guardar'}
           </Button>
         </DialogActions>
-        
+
         {/* Mostrar errores del servidor */}
         {submitError && (
           <Alert severity="error" sx={{ m: 2, mt: 0 }}>
             {submitError}
           </Alert>
         )}
-        
+
         {/* Snackbar para mensajes */}
         <Snackbar
           open={snackbar.open}
@@ -499,8 +499,8 @@ const ExamForm = ({ open, handleClose, exam = null, onSuccess }) => {
           onClose={handleCloseSnackbar}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         >
-          <Alert 
-            onClose={handleCloseSnackbar} 
+          <Alert
+            onClose={handleCloseSnackbar}
             severity={snackbar.severity}
             sx={{ width: '100%' }}
             variant="filled"

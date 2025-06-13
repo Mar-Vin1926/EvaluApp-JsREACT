@@ -7,10 +7,10 @@ import './CoursesPage.css';
 const sampleCourses = [
   { 
     id: 1, 
-    name: 'Matemáticas Básicas', 
+    name: 'Frameworks', 
     code: 'MATH-101', 
     students: 25,
-    description: 'Curso introductorio a las matemáticas básicas y álgebra.'
+    description: 'Curso introductorio a Frameworks de Frontend y Backend.'
   },
   { 
     id: 2, 
@@ -130,9 +130,7 @@ const CoursesPage = () => {
                   <Button size="small" color="primary" variant="outlined">
                     Ver detalles
                   </Button>
-                  <Button size="small" color="primary" variant="contained">
-                    Editar
-                  </Button>
+                  
                 </Box>
               </article>
             </Grid>
