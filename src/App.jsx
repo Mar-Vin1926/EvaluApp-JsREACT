@@ -124,7 +124,15 @@ function App() {
               <Route path="/exams/:id" element={<ExamDetail />} />
               <Route path="/exams/:id/preguntas" element={<ExamQuestionsPage />} />
               <Route path="/students" element={<StudentsPage />} />
-              <Route path="/results" element={<ResultsPage />} />
+              <Route
+                path="/results"
+                element={
+                  <ProtectedRoute 
+                    studentComponent={<ResultsPage />} 
+                    teacherComponent={<ResultsPage />}
+                  />
+                }
+              />
               <Route path="/courses" element={<CoursesPage />} />
               <Route
                 path="/configuration"
