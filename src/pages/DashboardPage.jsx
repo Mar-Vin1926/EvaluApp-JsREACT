@@ -49,13 +49,13 @@ const DashboardPage = () => {
     },
     { 
       title: 'Exámenes Activos', 
-      value: '12', 
+      value: '3', 
       icon: <AssignmentIcon color="secondary" fontSize="large" />,
       color: theme.palette.secondary.main 
     },
     { 
       title: 'Cursos', 
-      value: '8', 
+      value: '4', 
       icon: <SchoolIcon style={{ color: '#4caf50' }} fontSize="large" />,
       color: '#4caf50'
     },
