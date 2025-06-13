@@ -43,7 +43,7 @@ const DashboardPage = () => {
   const stats = [
     { 
       title: 'Total Estudiantes', 
-      value: '1,245', 
+      value: '245', 
       icon: <PeopleIcon color="primary" fontSize="large" />,
       color: theme.palette.primary.main 
     },
@@ -69,9 +69,9 @@ const DashboardPage = () => {
 
   // Actividades recientes
   const activities = [
-    { id: 1, user: 'Juan Pérez', action: 'completó el examen de Matemáticas', time: 'Hace 5 minutos', icon: <CheckCircleIcon color="success" /> },
-    { id: 2, user: 'María García', action: 'envió una tarea de Ciencias', time: 'Hace 1 hora', icon: <AssignmentIcon color="primary" /> },
-    { id: 3, user: 'Carlos López', action: 'preguntó sobre el próximo examen', time: 'Hace 3 horas', icon: <InfoIcon color="info" /> },
+    { id: 1, user: 'Kevin Olivella', action: 'completó el examen de Frameworks', time: 'Hace 5 minutos', icon: <CheckCircleIcon color="success" /> },
+    { id: 2, user: 'Marvin García', action: 'envió una tarea de Base de datos', time: 'Hace 1 hora', icon: <AssignmentIcon color="primary" /> },
+    { id: 3, user: 'Paola Jiménez', action: 'preguntó sobre el próximo examen', time: 'Hace 3 horas', icon: <InfoIcon color="info" /> },
   ];
 
   // Notificaciones

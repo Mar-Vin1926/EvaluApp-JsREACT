@@ -26,6 +26,7 @@ import {
   BarChart as ChartIcon,
   ExitToApp as ExitToAppIcon,
   School as SchoolIcon,
+  Settings as SettingsIcon
 } from '@mui/icons-material';
 
 const drawerWidth = 240;
@@ -51,6 +52,7 @@ const DashboardLayout = ({ children }) => {
     { text: 'Estudiantes', icon: <PeopleIcon />, path: '/students' },
     { text: 'Resultados', icon: <ChartIcon />, path: '/results' },
     { text: 'Cursos', icon: <SchoolIcon />, path: '/courses' },
+    { text: 'Configuración', icon: <SettingsIcon />, path: '/configuracion' },
   ];
 
   const drawer = (
