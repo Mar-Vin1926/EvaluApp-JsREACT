@@ -25,6 +25,7 @@ import {
 import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { examService } from '../services/api';
 import ExamForm from '../components/forms/ExamForm';
+import Swal from 'sweetalert2';
 import './ExamsPage.css';
 
 const ExamsPage = () => {
@@ -34,10 +35,6 @@ const ExamsPage = () => {
   const [retryCount, setRetryCount] = useState(0);
   const [lastErrorTime, setLastErrorTime] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
-  const [deleteDialog, setDeleteDialog] = useState({
-    open: false,
-    exam: null
-  });
   const [currentExam, setCurrentExam] = useState(null);
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -143,86 +140,45 @@ const ExamsPage = () => {
     setCurrentExam(null);
   };
 
-  const handleSubmit = async (examData) => {
-    try {
-      setLoading(true);
-      
-      if (currentExam) {
-        console.log('[ExamsPage] Actualizando examen:', { id: currentExam.id, data: examData });
-        await examService.updateExam(currentExam.id, examData);
-        setSnackbar({
-          open: true,
-          message: 'Examen actualizado correctamente',
-          severity: 'success'
-        });
-      } else {
-        console.log('[ExamsPage] Creando nuevo examen:', examData);
-        await examService.createExam(examData);
-        setSnackbar({
-          open: true,
-          message: 'Examen creado correctamente',
-          severity: 'success'
-        });
-      }
-      
-      setOpenDialog(false);
-      setCurrentExam(null);
-      await fetchExams();
-    } catch (error) {
-      console.error('Error al guardar el examen:', {
-        error,
-        response: error.response?.data,
-        status: error.response?.status
-      });
-      
-      const errorMessage = error.response?.data?.message || error.message;
-      setSnackbar({
-        open: true,
-        message: `Error al ${currentExam ? 'actualizar' : 'crear'} el examen: ${errorMessage || 'Error desconocido'}`,
-        severity: 'error'
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  const handleDeleteClick = (exam) => {
-    setDeleteDialog({
-      open: true,
-      exam
+
+  const handleDeleteClick = async (exam) => {
+    const result = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: `¿Deseas eliminar el examen "${exam.titulo}"? Esta acción no se puede deshacer.`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
     });
-  };
 
-  const handleDeleteConfirm = async () => {
-    if (!deleteDialog.exam) return;
-    
-    try {
-      setLoading(true);
-      await examService.deleteExam(deleteDialog.exam.id);
-      
-      setSnackbar({
-        open: true,
-        message: 'Examen eliminado correctamente',
-        severity: 'success'
-      });
-      
-      setDeleteDialog({ open: false, exam: null });
-      await fetchExams();
-    } catch (error) {
-      console.error('Error al eliminar el examen:', error);
-      
-      setSnackbar({
-        open: true,
-        message: `Error al eliminar el examen: ${error.response?.data?.message || error.message}`,
-        severity: 'error'
-      });
-    } finally {
-      setLoading(false);
+    if (result.isConfirmed) {
+      try {
+        setLoading(true);
+        await examService.deleteExam(exam.id);
+        
+        setSnackbar({
+          open: true,
+          message: 'Examen eliminado correctamente',
+          severity: 'success'
+        });
+        
+        await fetchExams();
+      } catch (error) {
+        console.error('Error al eliminar el examen:', error);
+        
+        setSnackbar({
+          open: true,
+          message: `Error al eliminar el examen: ${error.response?.data?.message || error.message}`,
+          severity: 'error'
+        });
+      } finally {
+        setLoading(false);
+      }
     }
-  };
-
-  const handleCloseDeleteDialog = () => {
-    setDeleteDialog({ open: false, exam: null });
   };
 
   const handleCloseSnackbar = () => {
@@ -317,28 +273,7 @@ const ExamsPage = () => {
         )}
       </div>
 
-      {/* Diálogo de confirmación de eliminación */}
-      <Dialog
-        open={deleteDialog.open}
-        onClose={handleCloseDeleteDialog}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">Confirmar eliminación</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            ¿Estás seguro de que deseas eliminar el examen "{deleteDialog.exam?.titulo}"? Esta acción no se puede deshacer.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDeleteDialog} color="primary">
-            Cancelar
-          </Button>
-          <Button onClick={handleDeleteConfirm} color="error" autoFocus>
-            Eliminar
-          </Button>
-        </DialogActions>
-      </Dialog>
+      {/* El diálogo de confirmación fue reemplazado por SweetAlert2 */}
 
       {/* Formulario de creación/edición */}
       <ExamForm

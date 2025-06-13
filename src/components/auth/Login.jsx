@@ -2,6 +2,7 @@ import React from 'react';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
+import Swal from 'sweetalert2';
 import {
   Box,
   Typography,
@@ -32,10 +33,32 @@ const Login = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleRoleSelect = (role) => {
-    const success = login(role);
-    if (success) {
-      navigate('/dashboard');
-    }
+    let timerInterval;
+    
+    Swal.fire({
+      title: `Iniciando sesión como ${role === 'TEACHER' ? 'Profesor' : role === 'STUDENT' ? 'Estudiante' : 'Administrador'}`,
+      html: 'Redirigiendo en <b></b> milisegundos.',
+      timer: 2000,
+      timerProgressBar: true,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+        const timer = Swal.getPopup().querySelector('b');
+        timerInterval = setInterval(() => {
+          timer.textContent = Swal.getTimerLeft();
+        }, 100);
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+      }
+    }).then((result) => {
+      if (result.dismiss === Swal.DismissReason.timer) {
+        const success = login(role);
+        if (success) {
+          navigate('/dashboard');
+        }
+      }
+    });
   };
 
   const roles = [
