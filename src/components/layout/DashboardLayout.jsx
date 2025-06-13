@@ -55,6 +55,13 @@ const DashboardLayout = ({ children }) => {
     { text: 'Configuración', icon: <SettingsIcon />, path: '/configuracion' },
   ];
 
+  // Filtrar menú según el rol del usuario
+  const filteredMenuItems = user?.role === 'TEACHER' 
+    ? menuItems.filter(item => !['Cursos', 'Configuración'].includes(item.text))
+    : user?.role === 'STUDENT' 
+    ? menuItems.filter(item => item.text === 'Dashboard' || item.text === 'Exámenes')
+    : menuItems;
+
   const drawer = (
     <div className="drawer-container">
       <Toolbar className="drawer-toolbar">
@@ -64,7 +71,7 @@ const DashboardLayout = ({ children }) => {
       </Toolbar>
       <Divider className="divider" />
       <List className="menu-list">
-        {menuItems.map((item) => (
+        {filteredMenuItems.map((item) => (
           <ListItem key={item.text} disablePadding className="menu-item">
             <ListItemButton 
               onClick={() => navigate(item.path)}
