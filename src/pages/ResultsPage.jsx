@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Button } from '@mui/material';
 import { Visibility as VisibilityIcon, BarChart as BarChartIcon } from '@mui/icons-material';
-import { resultService } from '../services/api';
 
 const ResultsPage = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     // Simular carga de datos
@@ -36,13 +34,10 @@ const ResultsPage = () => {
       ];
       setResults(mockResults);
       setLoading(false);
-      setResults(mockResults);
-      setLoading(false);
     }, 1000);
   }, []);
 
   if (loading) return <Typography>Cargando resultados...</Typography>;
-  if (error) return <Typography color="error">{error}</Typography>;
 
   return (
     <Container maxWidth="lg">
