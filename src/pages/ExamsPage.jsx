@@ -25,7 +25,7 @@ import {
 import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { examService } from '../services/api';
 import ExamForm from '../components/forms/ExamForm';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2/dist/sweetalert2.all.min.js';
 import './ExamsPage.css';
 
 const ExamsPage = () => {

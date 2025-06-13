@@ -13,7 +13,6 @@ import ExamQuestionsPage from './pages/ExamQuestionsPage';
 import StudentsPage from './pages/StudentsPage';
 import ResultsPage from './pages/ResultsPage';
 import CoursesPage from './pages/CoursesPage';
-import ConfiguracionPage from './pages/ConfiguracionPage';
 
 // Crear un tema personalizado con soporte responsive
 let theme = createTheme({
@@ -75,8 +74,7 @@ function App() {
       <AuthProvider>
         <Router>
           <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
             <Route element={
               <ProtectedRoute>
                 <DashboardLayout />
@@ -89,7 +87,6 @@ function App() {
               <Route path="/students" element={<StudentsPage />} />
               <Route path="/results" element={<ResultsPage />} />
               <Route path="/courses" element={<CoursesPage />} />
-              <Route path="/configuracion" element={<ConfiguracionPage />} />
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
