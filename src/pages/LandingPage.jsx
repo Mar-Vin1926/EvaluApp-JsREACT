@@ -172,7 +172,7 @@ const LandingPage = () => {
       name: 'Paola Murillo',
       role: 'Diseñadora Creativa',
       avatar: { 
-        src: 'https://avatars.githubusercontent.com/u/23456789?v=4',
+        src: '/public/Paola.jpg',
         alt: 'Paola Murillo',
         sx: { bgcolor: 'success.light' }
       }
