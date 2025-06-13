@@ -63,9 +63,39 @@ let theme = createTheme({
 theme = responsiveFontSizes(theme);
 
 // Componente para rutas protegidas
-const ProtectedRoute = ({ children }) => {
-  const { user } = useAuth();
-  return user ? children : <Navigate to="/" replace />;
+const ProtectedRoute = ({ children, requiredRole = null, studentComponent = null, teacherComponent = null }) => {
+  const { user, loading, hasRole } = useAuth();
+  
+  if (loading) {
+    return (
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh' 
+      }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  // Si no hay usuario, redirigir al login
+  if (!user) {
+    return <Navigate to="/login" state={{ from: window.location.pathname }} replace />;
+  }
+
+  // Si se requiere un rol específico y el usuario no lo tiene
+  if (requiredRole && !hasRole(requiredRole)) {
+    return <Navigate to="/unauthorized" replace />;
+  }
+
+  // Manejar la lógica de renderizado condicional basado en el rol
+  if (studentComponent && teacherComponent) {
+    return user.role === 'STUDENT' ? studentComponent : teacherComponent;
+  }
+
+  // Usuario autenticado y con los permisos necesarios
+  return children;
 };
 
 function App() {
@@ -86,15 +116,10 @@ function App() {
               <Route
                 path="/exams"
                 element={
-                  <ProtectedRoute>
-                    {({ user }) =>
-                      user?.role === 'STUDENT' ? (
-                        <StudentExamsPage />
-                      ) : (
-                        <ExamsPage />
-                      )
-                    }
-                  </ProtectedRoute>
+                  <ProtectedRoute 
+                    studentComponent={<StudentExamsPage />}
+                    teacherComponent={<ExamsPage />}
+                  />
                 }
               />
               <Route path="/exams/:id" element={<ExamDetail />} />
