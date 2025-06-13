@@ -37,28 +37,28 @@ import {
 const mockStudents = [
   { 
     id: 1, 
-    name: 'Juan Pérez', 
-    email: 'juan@example.com', 
+    name: 'Kevin Olivella', 
+    email: 'kevinolivella@gmail.com', 
     status: 'Activo',
-    avatar: '/avatars/1.jpg',
+    avatar: '/public/kevin.jpg',
     lastAccess: '2023-06-01T10:30:00',
     course: 'Matemáticas Básicas'
   },
   { 
     id: 2, 
-    name: 'María García', 
-    email: 'maria@example.com', 
+    name: 'Marvin García', 
+    email: 'effestos@gmail.com', 
     status: 'Activo',
-    avatar: '/avatars/2.jpg',
+    avatar: '/public/marvin.jpg',
     lastAccess: '2023-06-02T14:45:00',
     course: 'Programación I'
   },
   { 
     id: 3, 
-    name: 'Carlos López', 
-    email: 'carlos@example.com', 
+    name: 'Paola Murillo Jiménez', 
+    email: 'Murillojimenez@gmail.com', 
     status: 'Inactivo',
-    avatar: '/avatars/3.jpg',
+    avatar: '/public/Pao.jpg',
     lastAccess: '2023-05-28T09:15:00',
     course: 'Base de Datos'
   },
@@ -83,7 +83,7 @@ const mockStudents = [
 ];
 
 const StudentsPage = () => {
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState(mockStudents);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(0);
@@ -95,20 +95,7 @@ const StudentsPage = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
-    // Simulamos una llamada a la API
-    const fetchStudents = () => {
-      try {
-        // Usamos los datos de ejemplo
-        setStudents(mockStudents);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error al cargar estudiantes:', error);
-        setError('No se pudieron cargar los estudiantes. Por favor, intente más tarde.');
-        setLoading(false);
-      }
-    };
-
-    fetchStudents();
+    setLoading(false);
   }, []);
 
   const handleChangePage = (event, newPage) => {
@@ -151,20 +138,18 @@ const StudentsPage = () => {
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', p: 3 }}>
-        <CircularProgress />
+        <Typography>Cargando estudiantes...</Typography>
       </Box>
     );
   }
-
 
   if (error) {
     return (
       <Box sx={{ p: 3 }}>
-        <Alert severity="error">{error}</Alert>
+        <Typography color="error">Error al cargar estudiantes</Typography>
       </Box>
     );
   }
-
 
   return (
     <Box sx={{ p: { xs: 1, sm: 2, md: 3 } }}>

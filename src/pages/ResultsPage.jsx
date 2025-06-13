@@ -7,22 +7,39 @@ const ResultsPage = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [studentId] = useState(1); // En una aplicación real, esto vendría del usuario autenticado
 
   useEffect(() => {
-    const fetchResults = async () => {
-      try {
-        const response = await resultService.getResultsByStudent(studentId);
-        setResults(response.data);
-        setLoading(false);
-      } catch {
-        setError('Error al cargar los resultados');
-        setLoading(false);
-      }
-    };
-
-    fetchResults();
-  }, [studentId]);
+    // Simular carga de datos
+    setTimeout(() => {
+      const mockResults = [
+        {
+          id: 1,
+          estudiante: 'Kevin Olivella',
+          examen: { titulo: 'Frameworks' },
+          puntaje: 95,
+          fechaFinalizacion: '2025-06-12T15:00:00'
+        },
+        {
+          id: 2,
+          estudiante: 'Marvin García',
+          examen: { titulo: 'Base de Datos' },
+          puntaje: 88,
+          fechaFinalizacion: '2025-06-10T10:30:00'
+        },
+        {
+          id: 3,
+          estudiante: 'Paola Jiménez',
+          examen: { titulo: 'Programación I' },
+          puntaje: 92,
+          fechaFinalizacion: '2025-06-08T14:45:00'
+        }
+      ];
+      setResults(mockResults);
+      setLoading(false);
+      setResults(mockResults);
+      setLoading(false);
+    }, 1000);
+  }, []);
 
   if (loading) return <Typography>Cargando resultados...</Typography>;
   if (error) return <Typography color="error">{error}</Typography>;
@@ -49,10 +66,10 @@ const ResultsPage = () => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Examen</TableCell>
-                  <TableCell>Puntuación</TableCell>
-                  <TableCell>Fecha</TableCell>
-                  <TableCell align="right">Acciones</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold' }}>Examen</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold' }}>Puntuación</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold' }}>Fecha</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', textAlign: 'right' }}>Acciones</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
