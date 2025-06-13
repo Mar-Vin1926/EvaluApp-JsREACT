@@ -23,8 +23,6 @@ import {
   AdminPanelSettings as AdminIcon
 } from '@mui/icons-material';
 
-// Importar la imagen de fondo
-import fondoLogin from '../../assets/imagenFondo.jpg';
 
 const Login = () => {
   const { login } = useAuth();
@@ -87,29 +85,15 @@ const Login = () => {
 
   return (
     <Box 
+      className="login-container"
       sx={{
         position: 'fixed',
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url(${fondoLogin})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed',
         overflowY: 'auto',
-        zIndex: 0,
-        '&::before': {
-          content: '""',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          zIndex: -1,
-        }
+        zIndex: 0
       }}
     >
       <CssBaseline />
@@ -299,26 +283,9 @@ const Login = () => {
       </Container>
 
       {/* Footer */}
-      <Box 
-        component="footer"
-        sx={{
-          py: 3,
-          px: 2,
-          mt: 'auto',
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-          color: '#ffffff',
-          textAlign: 'center',
-          width: '100%',
-          position: 'relative',
-          zIndex: 1
-        }}
-      >
-        <Container maxWidth="lg">
-          <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
-            {new Date().getFullYear()} EvaluApp - Todos los derechos reservados
-          </Typography>
-        </Container>
-      </Box>
+      
+      
+      
     </Box>
   );
 };

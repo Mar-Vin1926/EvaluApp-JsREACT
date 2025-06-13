@@ -14,17 +14,7 @@ html, body, #root {
 }
 
 
-/* Capa oscura semi-transparente */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.3);
-  z-index: -1;
-}
+/* Se ha eliminado la capa oscura semi-transparente para mejor contraste */
 
 /* Contenedor principal */
 .login-container {
@@ -35,6 +25,21 @@ body::before {
   margin: 0;
   padding: 0;
   position: relative;
+  background: linear-gradient(90deg, #1a237e, #3949ab, #5c6bc0, #3949ab, #1a237e);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Contenido principal */
