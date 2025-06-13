@@ -65,7 +65,7 @@ const DashboardLayout = () => {
   const filteredMenuItems = user?.role === 'TEACHER' 
     ? menuItems.filter(item => !['Cursos', 'Configuración'].includes(item.text))
     : user?.role === 'STUDENT' 
-    ? menuItems.filter(item => item.text === 'Dashboard' || item.text === 'Exámenes')
+    ? menuItems.filter(item => ['Dashboard', 'Exámenes', 'Resultados'].includes(item.text))
     : menuItems;
 
   const drawer = (
