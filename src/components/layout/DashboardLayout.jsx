@@ -31,7 +31,7 @@ import {
 
 const drawerWidth = 240;
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -41,9 +41,15 @@ const DashboardLayout = ({ children }) => {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleLogout = () => {
-    logout();
-    navigate('/');
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/', { replace: true });
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+      // Asegurarse de redirigir incluso si hay un error
+      navigate('/', { replace: true });
+    }
   };
 
   const menuItems = [
@@ -52,7 +58,7 @@ const DashboardLayout = ({ children }) => {
     { text: 'Estudiantes', icon: <PeopleIcon />, path: '/students' },
     { text: 'Resultados', icon: <ChartIcon />, path: '/results' },
     { text: 'Cursos', icon: <SchoolIcon />, path: '/courses' },
-    { text: 'Configuración', icon: <SettingsIcon />, path: '/configuracion' },
+    { text: 'Configuración', icon: <SettingsIcon />, path: '/configuration' },
   ];
 
   // Filtrar menú según el rol del usuario
@@ -182,7 +188,8 @@ const DashboardLayout = ({ children }) => {
         }}
         className="main-content"
       >
-        {children || <Outlet />}
+        <Toolbar />
+        <Outlet />
       </Box>
     </Box>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Box, CircularProgress } from '@mui/material';
 import { ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { AuthProvider, useAuth } from './context/AuthContext.jsx';
@@ -65,16 +66,13 @@ theme = responsiveFontSizes(theme);
 
 // Componente para rutas protegidas
 const ProtectedRoute = ({ children, requiredRole = null, studentComponent = null, teacherComponent = null }) => {
-  const { user, loading, hasRole } = useAuth();
-  
-  if (loading) {
+  const { user } = useAuth();
+  const location = useLocation();
+
+  // Mostrar un indicador de carga mientras se verifica la autenticación
+  if (user === undefined) {
     return (
-      <Box sx={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        height: '100vh' 
-      }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
         <CircularProgress />
       </Box>
     );
@@ -82,11 +80,11 @@ const ProtectedRoute = ({ children, requiredRole = null, studentComponent = null
 
   // Si no hay usuario, redirigir al login
   if (!user) {
-    return <Navigate to="/login" state={{ from: window.location.pathname }} replace />;
+    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
   }
 
   // Si se requiere un rol específico y el usuario no lo tiene
-  if (requiredRole && !hasRole(requiredRole)) {
+  if (requiredRole && user.role !== requiredRole) {
     return <Navigate to="/unauthorized" replace />;
   }
 

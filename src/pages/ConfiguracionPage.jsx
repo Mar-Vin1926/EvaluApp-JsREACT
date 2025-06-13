@@ -14,8 +14,7 @@ import {
   Radio,
   MenuItem,
   Select,
-  Alert,
-  useTheme
+  Alert
 } from '@mui/material';
 
 const ConfiguracionPage = () => {
@@ -31,7 +30,6 @@ const ConfiguracionPage = () => {
   });
 
   const [error, setError] = useState('');
-  const theme = useTheme();
 
   const handleChange = (prop) => (event) => {
     setConfig({ ...config, [prop]: event.target.value });
