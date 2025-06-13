@@ -74,7 +74,8 @@ function App() {
       <AuthProvider>
         <Router>
           <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<Login />} />
             <Route element={
               <ProtectedRoute>
                 <DashboardLayout />
@@ -87,7 +88,6 @@ function App() {
               <Route path="/students" element={<StudentsPage />} />
               <Route path="/results" element={<ResultsPage />} />
               <Route path="/courses" element={<CoursesPage />} />
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

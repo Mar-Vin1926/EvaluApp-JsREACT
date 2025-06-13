@@ -180,10 +180,10 @@ const LandingPage = () => {
   ];
   
   const socialLinks = [
-    { icon: <GitHubIcon />, url: '#' },
-    { icon: <TwitterIcon />, url: '#' },
-    { icon: <LinkedInIcon />, url: '#' },
-    { icon: <EmailIcon />, url: 'mailto:contacto@evaluapp.com' }
+    { icon: <GitHubIcon />, url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+    { icon: <TwitterIcon />, url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+    { icon: <LinkedInIcon />, url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+    { icon: <EmailIcon />, url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' }
   ];
 
   return (
@@ -518,9 +518,9 @@ const LandingPage = () => {
                     Producto
                   </Typography>
                   <Stack spacing={1}>
-                    <Button href="#features" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Características</Button>
-                    <Button href="#" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Precios</Button>
-                    <Button href="#" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Documentación</Button>
+                    <Button href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Características</Button>
+                    <Button href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Precios</Button>
+                    <Button href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Documentación</Button>
                   </Stack>
                 </Grid>
                 <Grid item xs={6} sm={3}>
@@ -528,9 +528,9 @@ const LandingPage = () => {
                     Compañía
                   </Typography>
                   <Stack spacing={1}>
-                    <Button href="#" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Sobre Nosotros</Button>
-                    <Button href="#" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Blog</Button>
-                    <Button href="#" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Carreras</Button>
+                    <Button href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Sobre Nosotros</Button>
+                    <Button href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Blog</Button>
+                    <Button href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Carreras</Button>
                   </Stack>
                 </Grid>
                 <Grid item xs={6} sm={3}>
@@ -538,9 +538,9 @@ const LandingPage = () => {
                     Soporte
                   </Typography>
                   <Stack spacing={1}>
-                    <Button href="#" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Centro de Ayuda</Button>
-                    <Button href="#" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Contacto</Button>
-                    <Button href="#" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Estado</Button>
+                    <Button href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Centro de Ayuda</Button>
+                    <Button href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Contacto</Button>
+                    <Button href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Estado</Button>
                   </Stack>
                 </Grid>
                 <Grid item xs={6} sm={3}>
@@ -548,9 +548,9 @@ const LandingPage = () => {
                     Legal
                   </Typography>
                   <Stack spacing={1}>
-                    <Button href="#" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Privacidad</Button>
-                    <Button href="#" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Términos</Button>
-                    <Button href="#" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Cookies</Button>
+                    <Button href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Privacidad</Button>
+                    <Button href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Términos</Button>
+                    <Button href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" color="inherit" sx={{ justifyContent: 'flex-start', color: 'text.secondary' }}>Cookies</Button>
                   </Stack>
                 </Grid>
               </Grid>
@@ -562,9 +562,9 @@ const LandingPage = () => {
               © {new Date().getFullYear()} EvaluApp. Todos los derechos reservados.
             </Typography>
             <Box sx={{ display: 'flex', gap: 2, mt: { xs: 2, sm: 0 } }}>
-              <Button href="#" color="inherit" size="small" sx={{ color: 'text.secondary' }}>Privacidad</Button>
-              <Button href="#" color="inherit" size="small" sx={{ color: 'text.secondary' }}>Términos</Button>
-              <Button href="#" color="inherit" size="small" sx={{ color: 'text.secondary' }}>Cookies</Button>
+              <Button href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" color="inherit" size="small" sx={{ color: 'text.secondary' }}>Privacidad</Button>
+              <Button href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" color="inherit" size="small" sx={{ color: 'text.secondary' }}>Términos</Button>
+              <Button href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" color="inherit" size="small" sx={{ color: 'text.secondary' }}>Cookies</Button>
             </Box>
           </Box>
         </Container>
