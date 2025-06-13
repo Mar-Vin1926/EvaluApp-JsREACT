@@ -66,21 +66,21 @@ const StudentExamsPage = () => {
       const mockExams = [
         {
           id: 1,
-          title: 'Frameworks Frontend',
+          title: 'Examen de React',
           description: 'Examen sobre frameworks de frontend',
           date: '2025-06-15',
           status: 'Pendiente'
         },
         {
           id: 2,
-          title: 'Base de Datos',
+          title: 'MySQL',
           description: 'Examen sobre diseño y consultas SQL',
           date: '2025-06-20',
           status: 'Pendiente'
         },
         {
           id: 3,
-          title: 'Programación I',
+          title: 'Examen de Java',
           description: 'Examen sobre fundamentos de programación',
           date: '2025-06-25',
           status: 'Pendiente'

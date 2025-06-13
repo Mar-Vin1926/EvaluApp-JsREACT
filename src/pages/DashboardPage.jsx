@@ -43,7 +43,7 @@ const DashboardPage = () => {
   const stats = [
     { 
       title: 'Total Estudiantes', 
-      value: '245', 
+      value: '5', 
       icon: <PeopleIcon color="primary" fontSize="large" />,
       color: theme.palette.primary.main 
     },
@@ -61,7 +61,7 @@ const DashboardPage = () => {
     },
     { 
       title: 'Promedio General', 
-      value: '8.7/10', 
+      value: '6.7/10', 
       icon: <AccessTimeIcon style={{ color: '#ff9800' }} fontSize="large" />,
       color: '#ff9800'
     },
