@@ -41,7 +41,7 @@ const mockStudents = [
     email: 'kevinolivella@gmail.com', 
     status: 'Activo',
     avatar: '/public/kevin.jpg',
-    lastAccess: '2023-06-01T10:30:00',
+    lastAccess: '2025-06-01T10:30:00',
     course: 'Matemáticas Básicas'
   },
   { 
@@ -50,7 +50,7 @@ const mockStudents = [
     email: 'effestos@gmail.com', 
     status: 'Activo',
     avatar: '/public/marvin.jpg',
-    lastAccess: '2023-06-02T14:45:00',
+    lastAccess: '2025-06-02T14:45:00',
     course: 'Programación I'
   },
   { 
@@ -59,7 +59,7 @@ const mockStudents = [
     email: 'Murillojimenez@gmail.com', 
     status: 'Inactivo',
     avatar: '/public/Pao.jpg',
-    lastAccess: '2023-05-28T09:15:00',
+    lastAccess: '2025-05-28T09:15:00',
     course: 'Base de Datos'
   },
   { 
@@ -68,17 +68,17 @@ const mockStudents = [
     email: 'ana@example.com', 
     status: 'Activo',
     avatar: '/avatars/4.jpg',
-    lastAccess: '2023-06-03T16:20:00',
+    lastAccess: '2025-06-03T16:20:00',
     course: 'Inteligencia Artificial'
   },
   { 
     id: 5, 
     name: 'Pedro Sánchez', 
     email: 'pedro@example.com', 
-    status: 'Inactivo',
+    status: 'Activo',
     avatar: '/avatars/5.jpg',
     lastAccess: '2023-05-25T11:10:00',
-    course: 'Matemáticas Básicas'
+    course: 'Base de datos'
   },
 ];
 
